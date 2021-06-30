@@ -1,0 +1,5 @@
+aiofiles
+fastapi
+httpx
+pydantic
+uvicorn
