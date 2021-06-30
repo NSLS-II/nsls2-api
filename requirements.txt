@@ -1,5 +1,6 @@
 aiofiles
 fastapi
 httpx
+jinja2
 pydantic
 uvicorn
