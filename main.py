@@ -13,6 +13,6 @@ def configure():
 
 if __name__ == '__main__':
     configure()
-    uvicorn.run()
+    uvicorn.run(app)
 else:
     configure()
