@@ -32,6 +32,7 @@ def configure_routing():
     api.include_router(home.router)
     api.include_router(instrument_api.router)
     api.include_router(facility_api.router)
+    api.include_router(proposal_api.router)
     api.include_router(users_api.router)
 
 
