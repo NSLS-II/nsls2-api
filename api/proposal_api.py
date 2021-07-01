@@ -1,6 +1,7 @@
 from typing import List
 
 import fastapi
+import httpx
 
 from models.proposal import Proposal
 
@@ -19,6 +20,13 @@ def get_proposal():
     pass
 
 
+WINDOWS_API = "http://n2snadmin.nsls2.bnl.gov:5000"
+client_to_windows = httpx.AsyncClient(base_url=URL, headers={"X-API-KEY": n2sn_service.api_key})
+
 
 # X-API-KEY
 # "gu-999999-9"
+
+@router.post("/proposal/{proposal_id}")
+async def post_proposal(proposal: Proposal):
+    await client_to_windows.post("admin/group", json={"name": proposal.proposal_id})

@@ -5,10 +5,10 @@ import fastapi
 import uvicorn
 from starlette.staticfiles import StaticFiles
 
-from api import instrument_api
-from api import facility_api
-from api import proposal_api
-from api import users_api
+from .api import instrument_api
+from .api import facility_api
+from .api import proposal_api
+from .api import users_api
 
 
 from .services import pass_service
