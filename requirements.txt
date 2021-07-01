@@ -1,4 +1,5 @@
 aiofiles
+dotenv-python
 fastapi
 httpx
 jinja2
