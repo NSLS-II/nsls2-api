@@ -4,4 +4,6 @@ from pydantic.main import BaseModel
 
 
 class Proposal(BaseModel):
-    name: str
+    proposal_id: str
+    users_admin: List[str]  # PI(s)
+    users: List[str]
