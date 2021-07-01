@@ -11,8 +11,9 @@ from api import proposal_api
 from api import users_api
 
 
-from services import pass_service
-from views import home
+from .services import pass_service
+from .services import n2sn_service
+from .views import home
 
 api = fastapi.FastAPI()
 
@@ -26,6 +27,7 @@ def configure_api_keys():
     with open('settings.json') as infile:
         settings = json.load(infile)
         pass_service.api_key = settings.get('pass_api_key')
+        n2sn_service.api_key = settings.get('n2snadmin_api_key')
 
 def configure_routing():
     api.mount('/static', StaticFiles(directory='static'), name='static')
