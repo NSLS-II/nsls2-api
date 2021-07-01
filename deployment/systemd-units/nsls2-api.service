@@ -1,0 +1,18 @@
+[Unit]
+Description=gunicorn uvicorn service for NSLS-II API
+After=syslog.target
+
+[Service]
+ExecStart=/srv/nsls2api/venv/bin/gunicorn -b 127.0.0.1:8000 -w 4 -k uvicorn.workers.UvicornWorker main:api --name nsls2api_svc --chdir /srv/nsls2api/nsls2-api --access-logfile /srv/nsls2api/logs/access.log --error-logfile /srv/nsls2api/logs/errors.log
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+RuntimeDirectory=/srv/nsls2api/nsls2-api
+Restart=always
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
