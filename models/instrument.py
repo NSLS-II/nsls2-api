@@ -10,3 +10,4 @@ class Instrument(BaseModel):
     description: str
     network_name: Optional[str]
     endstations: List[str] = []
+

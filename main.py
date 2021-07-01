@@ -6,6 +6,11 @@ import uvicorn
 from starlette.staticfiles import StaticFiles
 
 from api import instrument_api
+from api import facility_api
+from api import proposal_api
+from api import users_api
+
+
 from services import pass_service
 from views import home
 
@@ -22,11 +27,12 @@ def configure_api_keys():
         settings = json.load(infile)
         pass_service.api_key = settings.get('pass_api_key')
 
-
 def configure_routing():
     api.mount('/static', StaticFiles(directory='static'), name='static')
     api.include_router(home.router)
     api.include_router(instrument_api.router)
+    api.include_router(facility_api.router)
+    api.include_router(users_api.router)
 
 
 def configure():
