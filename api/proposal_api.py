@@ -20,8 +20,8 @@ def get_proposal():
     pass
 
 
-WINDOWS_API = "http://n2snadmin.nsls2.bnl.gov:5000"
-client_to_windows = httpx.AsyncClient(base_url=URL, headers={"X-API-KEY": n2sn_service.api_key})
+#URL = "http://n2snadmin.nsls2.bnl.gov:5000"
+#client_to_windows = httpx.AsyncClient(base_url=URL, headers={"X-API-KEY": n2sn_service.api_key})
 
 
 # X-API-KEY
