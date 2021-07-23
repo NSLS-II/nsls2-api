@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/nsls2-api.iml" filepath="$PROJECT_DIR$/.idea/nsls2-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../ornl/acl/.idea/acl.iml" filepath="$PROJECT_DIR$/../../ornl/acl/.idea/acl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/nsls2_api.iml" filepath="$PROJECT_DIR$/.idea/nsls2_api.iml" />
     </modules>
   </component>
 </project>

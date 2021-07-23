@@ -10,6 +10,8 @@ from api import facility_api
 from api import proposal_api
 from api import users_api
 
+from infrastucture import settings
+
 from services import pass_service
 from services import n2sn_service
 from views import home
