@@ -1,11 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta name="description" content="NSLS-II API">
     <title>NSLS-II API</title>
+
+
+
+    <link rel='stylesheet' media='all' href='https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,700' />
+    <link rel='stylesheet' type='text/css' media='all' href='/static/css/bnl-2021.css' />
+    <link rel='stylesheet' type='text/css' media='all' href='https://www.bnl.gov/assets/global/packages/fontawesome/css/all.min.css' />
+
+	<link rel='stylesheet' type='text/css' media='all' href='https://www.bnl.gov/assets/global/css/nav/color-1/1.css' />
+    <link rel="icon" type="image/icon" href="/static/images/favicon.ico" />
+
+    <style type="text/css">
+
+#aboutN2 {
+	display:none;
+	margin:0;
+}
+
+.what {
+	font-weight:bold;
+	margin: -3.5em 0 0 0;
+    font-size: 1em;
+    color: #fff;
+    border-bottom: none;
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.41);
+    background: rgba(0, 0, 0, 0.4);
+    padding:0.5em 1em;
+    color: #fff;
+    position: absolute;
+    z-index: 100;
+}
+
+p.what a:link, p.what a:visited {
+	color:#fff;
+}
+
+
+
+
+
+.fa-question-circle {
+	margin-right:7px;
+	color:#fff;
+}
+
+.fa-envelope, .fa-times-rectangle-o {
+	margin-right:7px;
+}
+
+.fa-times-rectangle-o {
+	color:#da2128;
+}
+
+
+.buttonRow {
+	margin:0;
+	background-color: transparent;
+	padding:3em 0 1em 0;
+	border-bottom:1px solid #ccc;
+	}
+
+
+.buttonRow .button {
+	font-size: 120%;
+	line-height: 1.2;
+	}
+
+.buttonRow .button:hover {
+	color: #25728D;
+}
+
+.buttonRow .button span {
+	display: block;
+	font-size: 70%;
+	font-weight:normal;
+	opacity: 0.6;
+	}
+
+p.deadline {
+	font-size:1.3em;
+	margin-top:1em;
+}
+
+.boxOfThree {
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #eaeaea;
+	margin:0;
+	padding:2em 0 2.2em 0;
+}
+
+
+p.informed {
+	background-color: #fff;
+	padding:0.6em 1em;
+}
+
+strong {
+	color:#000;
+}
+
+.midRibbon.sisters {
+	margin-top:0;
+	margin-bottom:0;
+}
+
+.articleSummaries h3,
+.eventList h3,
+.eventList h4,
+.conferenceList h3,
+.conferenceList h4 {
+	font-size: 110%;
+}
+
+.button.extrasmall {
+	float:right;
+	margin-right:0;
+	font-size:75%;
+}
+
+.articleSummaries li h3 {
+	margin-right:3em;
+	padding-top:1em;
+}
+
+
+.yetAnother p {
+	padding-bottom:1.5em;
+}
+
+.sciProgContainer {
+	border-bottom:1px solid #ccc;
+/*	border-top:1px solid #ccc; */
+	padding:2em 0 1.5em 0;
+}
+
+.sciProgs h5 {
+	line-height:1.2em;
+	font-size:110%;
+	font-weight:bold;
+	color:#333;
+}
+
+.sciProgs p {
+	line-height:130%;
+}
+
+.sciIcons {
+	margin-bottom:0.5em;
+}
+
+img.icon2 {
+	background-color: #6486ae;
+	}
+
+img.icon2:hover {
+	background-color: #79a2d2;
+}
+
+
+img.icon3 {
+	background-color: #837495;
+	}
+
+img.icon3:hover {
+	background-color: #a492ba;
+}
+
+img.icon4 {
+	background-color: #7ca081;
+	}
+
+img.icon4:hover {
+	background-color: #97c99e;
+}
+
+img.icon5 {
+	background-color: #579cab;
+	}
+
+img.icon5:hover {
+	background-color: #6bbfd1;
+}
+
+img.icon6 {
+	background-color: #aeb354;
+	}
+
+img.icon6:hover {
+	background-color: #cad063;
+}
+
+.midRibbon.remainders {
+	margin-bottom:0;
+}
+
+.footer#footer {
+	margin-top:0;
+}
+
+.container_24#partners {
+	margin-top:2.5em;
+	padding-bottom:1.5em;
+}
+
+#announcementsList > li .fa {
+	color:#F68B1F;
+	}
+
+/* ----- START OF HERO GRAPHIC STYLES ----- */
+
+	.heroGraphic {
+		display:block;
+	    width:100%;
+	}
+
+
+	.overScreen {
+		position: absolute;
+		width: 100%;
+		top: 0;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		text-align: center;
+		z-index: 2;
+	}
+
+	.insideHero {
+		width: 100%;
+		text-align: center;
+	}
+
+	.insideHero h2 {
+		font-size: 250%;
+		margin: 1em 0 0 0;
+		color: #fff;
+	/ *text-shadow: 2px 2px 2px rgba(0, 0, 0, 1); */
+	}
+
+	.insideHero p {
+		color: #fff;
+		font-size:120%;
+	}
+
+	.insideHero p.tagline {
+			margin:0 20%;
+			line-height:130%;
+			padding-bottom:0.1em;
+		/*	text-shadow: 2px 2px 2px rgba(0, 0, 0, 1); */
+	}
+
+	.insideHero p.details {
+		font-size:90%;
+	}
+
+	@media only screen and (max-width: 980px) {
+
+		.insideHero h2 {
+			font-size: 250%;
+		}
+
+		.insideHero p.tagline {
+			margin:0 5%;
+			font-size: 110%;
+		}
+
+		.insideHero .button {
+			font-size: 100%;
+		}
+
+	}
+
+	@media only screen and (max-width: 768px) {
+
+		.insideHero h2 {
+			margin-top: 2em;
+			font-size: 180%;
+		}
+
+		.insideHero p.tagline {
+			font-size: 90%;
+		}
+
+		.insideHero .button {
+			font-size: 80%;
+			padding: .25em .5em;
+		}
+
+		.what {
+			margin: 2em 0 0 0;
+		    font-size: 1em;
+		    background: rgba(0, 0, 0, 0.8);
+		    position: relative;
+		    text-align: center;
+		}
+
+		p.what a:link, p.what a:visited {
+			color:#fff;
+		}
+
+		.buttonRow {
+			padding-top: 2em;
+		}
+
+		.sciIcons,
+		.sciIcons ~ p {
+			width: 70%;
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+		}
+
+		.heroOuter:first-child {
+		    margin-bottom: 2em;
+		}
+
+		.insideHero p.details {
+			margin-bottom: .5em;
+		    line-height: 1.1;
+		}
+
+		.midRibbon {
+		    margin-top: 1em;
+		}
+
+	}
+
+	@media (max-width:720px) {
+
+		.insideHero h2 {
+			margin-top: 2.5em;
+			font-size: 150%;
+		}
+
+		.insideHero p.tagline {
+			margin:0 2%;
+			font-size: 70%;
+		}
+
+		.insideHero .button {
+			font-size: 80%;
+			padding: .25em .5em;
+		}
+
+	}
+
+
+/*----------------------------------------------------*/
+
+</style>
+
 </head>
 <body>
+<div id="stripe" class="noNav">
+		<div class="container_24" id="banner">
+
+		<div class="grid_24">
+			<span id="hamburger" class="fa fa-bars"></span>
+			<span id="mobileSearchTrigger" class="fa fa-search"></span>
+			<a id="bnlLogoLink" title="BNL Homepage" href="https://www.bnl.gov">
+				<img class="BNLlogo black" title="BNL Homepage" src="https://www.bnl.gov/assets/global/images/bnl-logo-2021.svg">
+				<img class="BNLlogo white-gray" title="BNL Homepage" src="https://www.bnl.gov/assets/global/images/bnl-logo-white-2021.svg">
+			</a>
+			<div id="siteTitleContainer">NSLS-II API<span class="small"></span></div>
+			<div id="bs-blurb">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum
+				blandit eros vitae tempus. Donec sodales tortor eget mi venenatis
+				consequat. Etiam elementum tincidunt aliquam. Pellentesque in odio id
+				metus euismod sodales ut ut neque.
+			</div>
+			<div id="doeLogoContainer">
+				<a id="doeLogoLink" title="DOE Office of Science" href="http://science.energy.gov/">
+					<img class="DOElogo black" title="DOE Office of Science" src="https://www.bnl.gov/assets/global/images/logo-doe-black-200px.png">
+					<img class="DOElogo white" title="DOE Office of Science" src="https://www.bnl.gov/assets/global/images/logo-doe-white-500px.png">
+				</a>
+			</div>
+		</div>
+
+		</div><!--container-->
+	</div><!--stripe-->
+
+<div class="container_24" id="navSpacer"></div><!-- required for margin between stripe and page content --><div class="container_24">
+
 
     {%  block content %}
     <div class="content">
@@ -13,6 +395,60 @@
     </div>
     {% endblock %}
 
+
+    <div class="clear"></div>
+    </div><!--container_12-->
+    <div class="push"></div><!-- Required for sticky footer in grid layouts-->
+    </div><!--Wrapper-->
+<div id="topOfPage"><span class="fa fa-chevron-circle-up fa-lg topOfPageTrigger"></span></div>
+    <div class="footer" id="footer">
+        <div class="container_24">
+            <!--
+            <div class="container_24">
+		<div class="grid_6">
+			<h3 id="BNL">Brookhaven National Lab</h3>
+			<p>PO Box 5000<br>
+			Upton, NY 11973-5000<br>
+			(631) 344-8000</p>
+			<p><a id="contactUs" class="extrasmall white button" href="https://www.bnl.gov/contact-us/">Contact us</a></p>
+			<ul class="socialMediaIcons">
+	<li><a target="_blank" href="https://twitter.com/BrookhavenLab" title="Follow Us on Twitter"><span class="fa fa-twitter-square fa-2x"></span></a>
+	<li><a target="_blank" href="https://www.facebook.com/brookhavenlab" title="Follow Us on Facebook"><span class="fa fa-facebook-square fa-2x"></span></a>
+	<li><a target="_blank" href="https://www.instagram.com/brookhavenlab/" title="Follow Us on Instagram"><span class="fa fa-instagram fa-2x"></span></a>
+	<li><a target="_blank" href="https://www.linkedin.com/company/brookhavenlab/" title="Follow Us on LinkedIn"><span class="fa fa-linkedin-square fa-2x"></span></a>
+	<li><a target="_blank" href="https://www.youtube.com/BrookhavenLab" title="Follow Us on YouTube"><span class="fa fa-youtube-square fa-2x"></span></a>
+	<li><a target="_blank" href="http://www.flickr.com/brookhavenlab/" title="Follow Us on Flickr"><span class="fa fa-flickr fa-2x"></span></a>
+</ul>		</div>
+	<div class="grid_7 prefix_1">
+			<h3 id="BSA">Brookhaven Science Associates</h3>
+			<p>Brookhaven Science Associates manages and operates Brookhaven
+			National Laboratory on behalf of the U.S. Department of Energy's
+			Office of Science. BSA is a partnership between Battelle and The
+			Research Foundation for the State University of New York on behalf
+			of Stony Brook University. | <a href="https://www.bnl.gov/about/BSA.php">More</a></p>
+			<img id="bsaFooterLogo" alt="BSA logos" src="/assets/global/images/logo-bsa-black-220px.png">
+		</div>
+		<div class="clear"></div>
+-->
+            <div id="footerLeft" class="grid_18">
+                <p>One of ten national laboratories overseen and primarily funded by the Office of Science of the
+                U.S. Department of Energy (DOE), Brookhaven National Laboratory conducts research in the physical,
+                biomedical, and environmental sciences, as well as in energy technologies and national security.
+                Brookhaven Lab also builds and operates major scientific facilities available to university, industry
+                and government researchers. Brookhaven is operated and managed for DOE's Office of Science by Brookhaven
+                Science Associates, a limited-liability company founded by the Research Foundation for the State
+                University of New York on behalf of Stony Brook University, the largest academic user of Laboratory
+                facilities, and Battelle, a nonprofit applied science and technology organization.</p>
+                <p id="commonFooterLinks">
+                <a target="_blank" href="https://www.bnl.gov/bnlweb/security-notice.php">Privacy and Security Notice</a> &nbsp;
+                </p>
+            </div><!--footerLeft grid-->
+            <div id="footerRight" class="grid_6">
+                <img id="bsaFooterLogo" alt="BSA logos" src="https://www.bnl.gov/assets/global/images/logo-bsa-black-220px.png">
+            </div><!--footerRight grid-->
+            <div class="clear"></div>
+        </div><!--container-->
+    </div><!-- #footer -->
 
 </body>
 </html>

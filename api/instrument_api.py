@@ -7,14 +7,15 @@ from models.instrument import Instrument
 router = fastapi.APIRouter()
 
 @router.get('/instruments')
-def instrument() -> List[Instrument]:
+def get_instruments() -> List[Instrument]:
     pass
 
 @router.get('/instrument/{beamline}')
-def instrument() -> List[Instrument]:
-    pass
+def read_beamline(beamline: str):
+    # TODO: Validate beamline string is valid
+    return {"name": "TST"}
 
 @router.get('/instrument/{beamline}/{endstation}')
-def instrument() -> List[Instrument]:
+async def instrument() -> List[Instrument]:
     pass
 

@@ -2,14 +2,12 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 
-class Username(BaseModel):
+class User(BaseModel):
     username: str
-
-class User(Username):
-    first_name: str
-    last_name: str
-    email: str
-    life_number: str
-    orcid: Optional[str]
-    globus_username: Optional[str]
-    pass_unique_id: Optional[str]
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    email: Optional[str] = None
+    life_number: Optional[str] = None
+    orcid: Optional[str] = None
+    globus_username: Optional[str] = None
+    pass_unique_id: Optional[str] = None
