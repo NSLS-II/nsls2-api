@@ -11,6 +11,7 @@ api_key: Optional[str] = None
 base_url = settings.PASS_API_URL
 
 async def get_proposal():
+
     return
 
 
@@ -24,4 +25,9 @@ async def get_cycles_async():
     print(url)
     cycles = await _call_async_webservice(url)
     return cycles
+
+async def get_proposals_allocated_async():
+    url = f'{base_url}/Proposal/GetProposalsAllocated/{settings.PASS_API_KEY}/NSLS-II'
+    allocated_proposals = await _call_async_webservice(url)
+    return allocated_proposals
 
