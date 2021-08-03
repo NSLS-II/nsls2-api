@@ -3,6 +3,7 @@ dotenv-python
 fastapi
 httpx
 jinja2
+ldap3
 n2snusertools
 pydantic
 uvicorn

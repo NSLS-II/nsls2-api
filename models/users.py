@@ -11,3 +11,7 @@ class User(BaseModel):
     orcid: Optional[str] = None
     globus_username: Optional[str] = None
     pass_unique_id: Optional[str] = None
+
+class DataAdmins(BaseModel):
+    nsls2_dataadmin: bool = False
+    lbms_dataadmin: bool = False
