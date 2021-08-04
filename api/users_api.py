@@ -1,3 +1,5 @@
+import json
+
 import fastapi
 import re
 
@@ -36,7 +38,7 @@ async def get_user_by_username(person: User = Depends()):
 
 @router.get('/user/{username}/data-admin-rights', response_model=DataAdmins)
 async def get_user_dataadmin_rights(username: str):
-    userinfo = await n2sn_service.get_groups_by_username_sync(username)
+    userinfo = await n2sn_service.get_groups_by_username_async(username)
     # For now, I am assuming the first account returned is the one we want
     # TODO: Make the logic of matching multiple accounts better
     ldapgrouplist = userinfo[0]['memberOf']
@@ -62,6 +64,19 @@ async def get_user_dataadmin_rights(username: str):
 
     if 'lbms-dataadmin' in dagrouplist:
         response['lbms_dataadmin'] = True
+
+    beamline_dataadmin = []
+
+    # TODO: this is not the place to do it... but for now
+    f = open("beamlines.yml")
+    beamlines = json.load(f)
+    for beamline in beamlines:
+        tla = str(beamline['name']).lower()
+        datagroup_name = f"n2sn-secgrp-dataadmin-{tla}"
+        if await n2sn_service.is_user_in_group_async(username, datagroup_name):
+            beamline_dataadmin.append(tla)
+
+    response['dataadmin'] = beamline_dataadmin
 
     return response
 # 1

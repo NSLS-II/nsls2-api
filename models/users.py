@@ -15,3 +15,4 @@ class User(BaseModel):
 class DataAdmins(BaseModel):
     nsls2_dataadmin: bool = False
     lbms_dataadmin: bool = False
+    dataadmin: Optional[list] = None

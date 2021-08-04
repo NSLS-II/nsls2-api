@@ -27,3 +27,4 @@ def get_facility(facility: FacilityName):
 @router.get('/facilities', response_model=Facility)
 def get_all_facilities():
     return facility_data
+
