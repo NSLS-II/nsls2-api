@@ -79,6 +79,53 @@ async def get_user_dataadmin_rights(username: str):
     response['dataadmin'] = beamline_dataadmin
 
     return response
+
+
+@router.get('/user/{username}/data-admin-rights-hack', response_model=DataAdmins)
+async def get_user_dataadmin_rights(username: str):
+    userinfo = await n2sn_service.get_groups_by_username_async(username)
+    # For now, I am assuming the first account returned is the one we want
+    # TODO: Make the logic of matching multiple accounts better
+    ldapgrouplist = userinfo[0]['memberOf']
+
+    # Extract the groups
+    grouplist = []
+    for group in ldapgrouplist:
+        cn = ldap3.utils.dn.parse_dn(group)[0][1]
+        grouplist.append(cn)
+
+    # Cull the list to those we care about
+    dagrouplist = [x for x in grouplist if re.search("dataadmin", x)]
+
+    response = {}
+
+    # Check for facility data admins
+    if 'n2sn-dataadmin' in dagrouplist:
+        response['nsls2_dataadmin'] = True
+        response['lbms_dataadmin'] = True
+
+    if 'nsls2-dataadmin' in dagrouplist:
+        response['nsls2_dataadmin'] = True
+
+    if 'lbms-dataadmin' in dagrouplist:
+        response['lbms_dataadmin'] = True
+
+    beamline_dataadmin = []
+
+    # TODO: this is not the place to do it... but for now
+    f = open("beamlines.yml")
+    beamlines = json.load(f)
+    for beamline in beamlines:
+        tla = str(beamline['name']).lower()
+        datagroup_name = f"n2sn-inststaff-{tla}"
+        if datagroup_name in grouplist:
+            beamline_dataadmin.append(tla)
+
+    response['dataadmin'] = beamline_dataadmin
+
+    return response
+
+
 # 1
 #
 #
