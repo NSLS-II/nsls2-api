@@ -17,23 +17,45 @@ from infrastucture import settings
 
 router = fastapi.APIRouter()
 
+
 @router.get('/users/me')
 async def get_current_user(x_remote_user: Optional[str] = Header(None)):
     user_info = {"upn": x_remote_user}
 
     return user_info
 
+
 # @router.get('/users')
 # def get_users(person: User):
 #     pass
 
 
-@router.get('/users/{username}')
+@router.get('/users/{username}', response_model=User)
 async def get_user_by_username(person: User = Depends()):
     bnl_person = await bnlpeople_service.get_person_by_username_async(person.username)
-    pass_person = await pass_service.get_user(person.username)
+    print(type(bnl_person))
+    # pass_person = await pass_service.get_user(person.username)
+    # person.username = bnl_person['ActiveDirectoryName']
+    person.first_name = bnl_person[0]['FirstName']
+    person.last_name = bnl_person[0]['LastName']
+    person.email = bnl_person[0]['BNLEmail']
+    person.life_number = bnl_person[0]['EmployeeNumber']
     return person
 
+
+@router.get('/users/{username}/proposals')
+async def get_proposals_by_username(person: User = Depends()):
+    bnl_person = await bnlpeople_service.get_person_by_username_async(person.username)
+    proposals = await pass_service.get_proposals_by_person(bnl_person[0]['EmployeeNumber'])
+    return proposals
+
+@router.get('/data_session/{username}', response_model=DataSessionAccess)
+async def get_datasessions_by_username(person: User = Depends()):
+    proposals = await get_proposals_by_username(person)
+    proposal_ids = [ sublist['Proposal_ID'] for sublist in proposals ]
+    proposal_ids = [f'pass-{str(i)}' for i in proposal_ids]
+    dataaccess = DataSessionAccess(all_access=False, data_sessions=proposal_ids)
+    return dataaccess
 
 # @router.get('/dataaccess/{username}/{datasession}/{beamline}', response_model=DataSessionAccess)
 #     async get_datasession_list(username: str, data_session: str, beamline: )

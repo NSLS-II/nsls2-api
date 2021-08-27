@@ -19,5 +19,6 @@ class DataAdmins(BaseModel):
 
 
 class DataSessionAccess(BaseModel):
-    all_access: bool = False
-    data_sessions: Optional[list] = None
+    facility_all_access: List[str] = None
+    beamline_all_access: List[str] = None
+    data_sessions: List[str] = None

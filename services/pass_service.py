@@ -10,9 +10,18 @@ api_key: Optional[str] = None
 
 base_url = settings.PASS_API_URL
 
-async def get_proposal():
+async def get_proposal(proposal_id: int):
+    url = f'{base_url}/Proposal/GetProposal/{settings.PASS_API_KEY}/NSLS-II/{proposal_id}'
+    print(url)
+    proposal = await _call_async_webservice(url)
+    return proposal
 
-    return
+async def get_saf_from_proposal(proposal_id: int):
+    url = f'{base_url}/SAF/GetSAFsByProposal/{settings.PASS_API_KEY}/NSLS-II/{proposal_id}'
+    print(url)
+    saf = await _call_async_webservice(url)
+    return saf
+
 
 
 async def get_pass_resources_async():
@@ -31,3 +40,8 @@ async def get_proposals_allocated_async():
     allocated_proposals = await _call_async_webservice(url)
     return allocated_proposals
 
+async def get_proposals_by_person(bnl_id : str):
+    url = f'{base_url}/Proposal/GetProposalsByPerson/{settings.PASS_API_KEY}/NSLS-II/null/null/{bnl_id}/null'
+    print(url)
+    proposals = await _call_async_webservice(url)
+    return proposals
