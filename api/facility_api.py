@@ -8,8 +8,10 @@ from models.facility import Facility, FacilityName
 router = fastapi.APIRouter()
 
 facility_data = {
-    'nsls2': {'name': 'NSLS-II', 'id': 'nsls2', 'fullname': 'National Synchrotron Light Source II', 'pass_facility_id': 'NSLS-II'},
-    'lbms': {'name': 'LBMS', 'id': 'lbms', 'fullname': '', 'pass_facility_id': 'LBMS'}
+    'nsls2': {'name': 'NSLS-II', 'id': 'nsls2', 'fullname': 'National Synchrotron Light Source II',
+              'pass_facility_id': 'NSLS-II'},
+    'lbms': {'name': 'LBMS', 'id': 'lbms', 'fullname': 'Laboratory for Biomolecular Structure',
+             'pass_facility_id': 'LBMS'}
 }
 
 
@@ -27,4 +29,3 @@ def get_facility(facility: FacilityName):
 @router.get('/facilities', response_model=Facility)
 def get_all_facilities():
     return facility_data
-

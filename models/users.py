@@ -16,3 +16,8 @@ class DataAdmins(BaseModel):
     nsls2_dataadmin: bool = False
     lbms_dataadmin: bool = False
     dataadmin: Optional[list] = None
+
+
+class DataSessionAccess(BaseModel):
+    all_access: bool = False
+    data_sessions: Optional[list] = None

@@ -8,5 +8,4 @@ motor
 n2snusertools
 pydantic
 pymongo
-starlette
 uvicorn

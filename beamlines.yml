@@ -3,179 +3,181 @@
   "name": "SIX",
   "long_name": "Soft Inelastic X-ray Scattering",
   "pass_name": "Beamline 2-ID",
-  "port_name": "2-ID",
-  "location_name": "xf02id1"
+  "alternative_name": "2-ID",
+  "locations": ["xf02id1"]
 },
 {
   "name": "HXN",
   "long_name": "Hard X-ray Nanoprobe",
   "pass_name": "Beamline 3-ID",
-  "port_name": "3-ID",
-  "location_name": "xf03id1"
+  "alternative_name": "3-ID",
+  "locations": ["xf03id1"]
 },
 {
   "name": "XFM",
   "long_name": "X-ray Fluorescence Microprobe",
   "pass_name": "Beamline 4-BM",
-  "port_name": "4-BM",
-  "location_name": "xf04bm"
+  "alternative_name": "4-BM",
+  "locations": ["xf04bm"]
 },
 {
   "name": "ISR",
   "long_name": "Integrated In situ and Resonant Hard X-ray Studies",
   "pass_name": "Beamline 4-ID",
-  "port_name": "4-ID",
-  "location_name": "xf04id1"
+  "alternative_name": "4-ID",
+  "locations": "xf04id1"
 },
 {
   "name": "SRX",
   "pass_name": "Beamline 5-ID",
   "long_name": "Submicron Resolution X-ray Spectroscopy",
-  "port_name": "5-ID",
+  "alternative_name": "5-ID",
   "local_username": "xf05id",
-  "location_name": "xf05id2",
-  "facility": "NSLS-II"
+  "locations": ["xf05id2"]
 },
 {
   "name": "BMM",
   "long_name": "Beamline for Materials Measurement",
   "pass_name": "Beamline 6-BM",
-  "port_name": "6-BM",
-  "location_name": "xf06bm"
+  "alternative_name": "6-BM",
+  "locations": "xf06bm"
 },
 {
   "name": "QAS",
   "long_name": "Quick X-ray Absorption and Scattering",
   "pass_name": "Beamline 7-BM",
-  "port_name": "7-BM",
-  "location_name": "xf07bm"
+  "alternative_name": "7-BM",
+  "locations": ["xf07bm"]
 },
 {
   "name": "SST1",
   "long_name": "Spectroscopy Soft and Tender",
   "pass_name": "Beamline 17-ID-1",
-  "port_name": "17-ID-1",
-  "location_name": "xf17id1"
+  "alternative_name": "17-ID-1",
+  "locations": ["xf17id1"]
 },
 {
   "name": "SST2",
   "long_name": "Spectroscopy Soft and Tender",
   "pass_name": "Beamline 17-ID-2",
-  "port_name": "17-ID-2",
-  "location_name": "xf17id2"
+  "alternative_name": "17-ID-2",
+  "locations": ["xf17id2"]
 },
 {
   "name": "TES",
   "long_name": "Tender Energy X-ray Absorption Spectroscopy",
   "pass_name": "Beamline 8-BM",
-  "port_name": "8-BM",
-  "location_name": "xf08bm"
+  "alternative_name": "8-BM",
+  "locations": ["xf08bm"]
 },
 {
   "name": "ISS",
   "long_name": "Inner-Shell Spectroscopy",
   "pass_name": "Beamline 8-ID",
-  "port_name": "8-ID",
-  "location_name": "xf08id1"
+  "alternative_name": "8-ID",
+  "locations": ["xf08id1"]
 },
 {
   "name": "IXS",
   "long_name": "Inelastic X-ray Scattering",
   "pass_name": "Beamline 10-ID",
-  "port_name": "10-ID",
-  "location_name": "xf10id1"
+  "alternative_name": "10-ID",
+  "locations": ["xf10id1"]
 },
 {
   "name": "CMS",
   "long_name": "Complex Materials Scattering",
   "pass_name": "Beamline 11-BM",
-  "port_name": "11-BM",
-  "location_name": "xf11bm"
+  "alternative_name": "11-BM",
+  "locations": ["xf11bm"]
 },
 {
   "name": "CHX",
   "long_name": "Coherent Hard X-ray Scattering",
   "pass_name": "Beamline 11-ID",
-  "port_name": "11-ID",
-  "location_name": "xf11id1"
+  "alternative_name": "11-ID",
+  "locations": ["xf11id1"]
 },
 {
   "name": "SMI",
   "long_name": "Soft Matter Interfaces",
   "pass_name": "",
-  "port_name": "12-ID",
-  "location_name": ["xf12id1", "xf12id2"],
+  "alternative_name": "12-ID",
+  "locations": ["xf12id1", "xf12id2"],
   "endstations": ["SWAXS", "OPLS"]
 },
 {
   "name": "LiX",
   "long_name": "Life Science X-ray Scattering",
-  "pass_name": "",
-  "port_name": "16-ID",
-  "location_name": "xf16id1"
+    "pass_name": null,
+  "alternative_name": "16-ID",
+  "locations": ["xf16id1"]
 },
 {
   "name": "XFP",
   "long_name": "X-ray Footprinting of Biological Materials",
-  "pass_name": "",
-  "port_name": "17-BM",
-  "location_name": "xf17bm"
+  "pass_name": null,
+  "alternative_name": "17-BM",
+  "locations": ["xf17bm"]
 },
 {
   "name": "AMX",
   "long_name": "Automated Macromolecular Crystallography",
-  "pass_name": "",
-  "port_name": "17-ID-1",
-  "location_name": "xf17id1"
+  "pass_name": null,
+  "alternative_name": "17-ID-1",
+  "locations": ["xf17id1"]
 },
 {
   "name": "FMX",
   "long_name": "Frontier Microfocusing Macromolecular Crystallography",
-  "pass_name": "",
-  "port_name": "17-ID-2",
-  "location_name": "xf17id2"
+  "pass_name": null,
+  "alternative_name": "17-ID-2",
+  "locations": ["xf17id2"]
 },
 {
   "name": "FXI",
   "long_name": "Full Field X-ray Imaging",
-  "pass_name": "",
-  "port_name": "18-ID",
-  "location_name": "xf18id1"
+  "pass_name": null,
+  "alternative_name": "18-ID",
+  "port":"18-ID",
+  "locations": ["xf18id1"]
 },
 {
   "name": "CSX",
   "pass_name": "Beamline 23-ID-1",
   "long_name": "Coherent Soft X-ray Scattering beamline",
-  "port_name": "23-ID-1",
-  "location_name": "xf23id1"
+  "alternative_name": "23-ID-1",
+    "port":"23-ID-1",
+  "locations": ["xf23id1"]
 },
 {
   "name": "IOS",
   "pass_name": "Beamline 23-ID-2",
   "long_name": "In situ and Operando Soft X-ray Spectroscopy",
-  "port_name": "23-ID-2",
-  "location_name": "xf23id2"
+  "alternative_name": "23-ID-2",
+  "port":"23-ID-2",
+  "locations": ["xf23id2"]
 },
 {
   "name": "HEX",
   "pass_name": "Beamline 27-ID",
   "long_name": "High Energy Engineering X-ray Scattering",
-  "port_name": "27-ID",
-  "location_name": "xf27id1"
+  "alternative_name": "27-ID",
+  "locations": ["xf27id1"]
 },
 {
   "name": "PDF",
   "pass_name": "Beamline 28-ID-1",
   "long_name": "Pair Distribution Function",
-  "port_name": "28-ID-1",
-  "location_name": "xf28id1"
+  "alternative_name": "28-ID-1",
+  "locations": "xf28id1"
 },
 {
   "name": "XPD",
   "pass_name": "Beamline 28-ID-2",
   "long_name": "X-ray Powder Diffraction",
-  "port_name": "28-ID-2",
-  "location_name": "xf28id2",
-  "endstations": ["maxpd", "tomo"]
+  "alternative_name": "28-ID-2",
+  "locations": ["xf28id2"],
+  "endstations": [{ "name":"maxpd"}, {"name":"tomo"}]
 }
 ]
