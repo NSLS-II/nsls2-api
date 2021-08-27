@@ -49,8 +49,8 @@ async def get_user_by_username(person: User = Depends()):
 
 @router.get('/users/{username}/proposals')
 async def get_proposals_by_username(person: User = Depends()):
-    bnl_person = await bnlpeople_service.get_person_by_username_async(person.username)
-    proposals = await pass_service.get_proposals_by_person(bnl_person[0]['EmployeeNumber'])
+    person = await n2sn_service.get_user_by_username_async(person.username)
+    proposals = await pass_service.get_proposals_by_person(person[0]['employeeID'])
     return proposals
 
 @router.get('/data_session/{username}', response_model=DataSessionAccess)
