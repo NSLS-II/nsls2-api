@@ -32,15 +32,19 @@ async def get_current_user(x_remote_user: Optional[str] = Header(None)):
 
 @router.get('/users/{username}', response_model=User)
 async def get_user_by_username(person: User = Depends()):
-    bnl_person = await bnlpeople_service.get_person_by_username_async(person.username)
-    print(type(bnl_person))
+    ad_person = await n2sn_service.get_user_by_username_async(person.username)
+
     # pass_person = await pass_service.get_user(person.username)
     # person.username = bnl_person['ActiveDirectoryName']
-    person.first_name = bnl_person[0]['FirstName']
-    person.last_name = bnl_person[0]['LastName']
-    person.email = bnl_person[0]['BNLEmail']
-    person.life_number = bnl_person[0]['EmployeeNumber']
-    return person
+    # person.first_name = bnl_person[0]['FirstName']
+    # person.last_name = bnl_person[0]['LastName']
+    # person.email = bnl_person[0]['BNLEmail']
+    # person.life_number = bnl_person[0]['EmployeeNumber']
+
+    user = User(username=ad_person[0]['sAMAccountName'],
+                email=ad_person[0]['mail'],
+                life_number=ad_person[0]['employeeID'])
+    return user
 
 
 @router.get('/users/{username}/proposals')
