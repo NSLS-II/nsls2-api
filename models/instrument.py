@@ -14,17 +14,9 @@ class BeamlineName(Enum):
     xpd = "xpd"
 
 
-class InstrumentBase(BaseModel):
+class Instrument(BaseModel):
     name: str
-    full_name: str
-    port_name: str
-    description: str
-    network_name: Optional[str] = None
-
-
-class Instrument(InstrumentBase):
-    endstations: List[str] = []
-
-
-class Endstation(InstrumentBase):
-    pass
+    long_name: str
+    alternative_name: str = None
+    pass_id: str
+    locations: Optional[List[str]] = None
