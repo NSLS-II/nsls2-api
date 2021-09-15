@@ -47,6 +47,24 @@ async def get_user_by_username(person: User = Depends()):
     return user
 
 
+@router.get('/users/{bnl_id}', response_model=User)
+async def get_user_by_life_number(person: User = Depends()):
+    ad_person = await n2sn_service.get_user_by_id_async(person.life_number)
+
+    # pass_person = await pass_service.get_user(person.username)
+    # person.username = bnl_person['ActiveDirectoryName']
+    # person.first_name = bnl_person[0]['FirstName']
+    # person.last_name = bnl_person[0]['LastName']
+    # person.email = bnl_person[0]['BNLEmail']
+    # person.life_number = bnl_person[0]['EmployeeNumber']
+
+    user = User(username=ad_person[0]['sAMAccountName'],
+                email=ad_person[0]['mail'],
+                life_number=ad_person[0]['employeeID'])
+    return user
+
+
+
 @router.get('/users/{username}/proposals')
 async def get_proposals_by_username(person: User = Depends()):
     person = await n2sn_service.get_user_by_username_async(person.username)
