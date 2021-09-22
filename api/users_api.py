@@ -34,6 +34,8 @@ async def get_current_user(x_remote_user: Optional[str] = Header(None)):
 async def get_user_by_username(person: User = Depends()):
     ad_person = await n2sn_service.get_user_by_username_async(person.username)
 
+    bnl_person = await bnlpeople_service.get_person_by_username_async(person.username)
+
     # pass_person = await pass_service.get_user(person.username)
     # person.username = bnl_person['ActiveDirectoryName']
     # person.first_name = bnl_person[0]['FirstName']
@@ -421,3 +423,28 @@ async def get_user_dataadmin_rights(username: str):
 # give list in body...
 #
 # all_access: true
+
+
+## Query to search for data_admins
+# from pymongo import MongoClient
+#
+# client = MongoClient("mongodb://host:port/")
+# database = client["nsls2core"]
+# collection = database["beamlines"]
+#
+# # Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+#
+# query = {}
+# query["data_admins"] = {
+#     u"$elemMatch": {
+#         u"$eq": u"bravel"
+#     }
+# }
+#
+#
+# cursor = collection.find(query)
+# try:
+#     for doc in cursor:
+#         print(doc)
+# finally:
+#     client.close()
