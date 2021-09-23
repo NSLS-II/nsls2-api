@@ -64,7 +64,7 @@ async def get_datasessions_by_username(person: User = Depends()):
 # @router.get('/dataaccess/{username}/{datasession}/{beamline}', response_model=DataSessionAccess)
 #     async get_datasession_list(username: str, data_session: str, beamline: )
 
-@router.get('/user/{username}/data-admin-rights', response_model=DataAdmins)
+#@router.get('/user/{username}/data-admin-rights', response_model=DataAdmins)
 async def get_user_dataadmin_rights(username: str):
     userinfo = await n2sn_service.get_groups_by_username_async(username)
     # For now, I am assuming the first account returned is the one we want
@@ -109,7 +109,7 @@ async def get_user_dataadmin_rights(username: str):
     return response
 
 
-@router.get('/user/{username}/data-admin-rights-hack', response_model=DataAdmins)
+#@router.get('/user/{username}/data-admin-rights-hack', response_model=DataAdmins)
 async def get_user_dataadmin_rights(username: str):
     # userinfo = await n2sn_service.get_groups_by_username_async(username)
 

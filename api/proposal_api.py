@@ -12,9 +12,9 @@ from services import pass_service
 router = fastapi.APIRouter()
 
 
-@router.get('/proposals')
-def get_all_proposals():
-    pass
+#@router.get('/proposals')
+#def get_all_proposals():
+#    pass
 
 
 @router.get('/proposal/{proposal_id}')
@@ -27,7 +27,7 @@ async def get_proposal(proposal_id: ProposalIn = Depends()):
 async def update_proposal(proposal: ProposalUpdate = Depends()):
     facility_info = facility_data[proposal.facility.name]
     msg = {
-        'message': f'I am new going to update my local information for Proposal ID {proposal.proposal_id} for the '
+        'message': f'I am now going to update my local information for Proposal ID {proposal.proposal_id} for the '
                    f'{facility_info["pass_facility_id"]} facility.'}
     return msg
 

@@ -21,11 +21,11 @@ async def get_facility_cycles(facility: FacilityName):
     return cycles
 
 
-@router.get('/facility/{facility}')
-def get_facility(facility: FacilityName):
-    return facility_data[facility.name]
+#@router.get('/facility/{facility}')
+#def get_facility(facility: FacilityName):
+#    return facility_data[facility.name]
 
 
-@router.get('/facilities', response_model=Facility)
-def get_all_facilities():
-    return facility_data
+#@router.get('/facilities', response_model=List[Facility])
+#def get_all_facilities():
+#    return Facility(facility_data)

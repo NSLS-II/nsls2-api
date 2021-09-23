@@ -19,6 +19,7 @@ from services import n2sn_service
 from views import home
 
 api = fastapi.FastAPI()
+#api = fastapi.FastAPI(root_path="/api")
 
 
 @api.middleware("http")
