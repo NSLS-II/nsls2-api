@@ -3,6 +3,7 @@ from typing import List
 import fastapi
 import httpx
 from fastapi import Depends, Header
+from fastapi.security import APIKeyHeader
 
 from models.proposal import ProposalIn, ProposalUpdate
 from api.facility_api import facility_data
@@ -21,6 +22,9 @@ router = fastapi.APIRouter()
 async def get_proposal(proposal_id: ProposalIn = Depends()):
     proposal = await pass_service.get_proposal(proposal_id.proposal_id)
     return proposal
+
+
+#@router.post('/proposal/{proposal_id}')
 
 
 @router.put('/proposal/{proposal_id}')
