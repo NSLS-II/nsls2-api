@@ -5,6 +5,7 @@ import re
 from typing import List, Optional
 import ldap3.utils.dn
 from fastapi import Depends, Header
+from pymongo import MongoClient
 
 from models.users import User, DataAdmins, DataSessionAccess
 from services import bnlpeople_service
@@ -12,10 +13,68 @@ from services import pass_service
 from services import n2sn_service
 
 from N2SNUserTools.ldap import ADObjects
-
 from infrastucture import settings
 
+client = MongoClient(settings.NSLS2CORE_MONGODB_URI)
+#client = MongoClient(settings.NSLS2CORE_LOCAL_TESTING_URI)
+
 router = fastapi.APIRouter()
+
+
+def get_facility_dataadmin_roles(username: str):
+    database = client["nsls2core"]
+    collection = database["facilities"]
+    query = {}
+    query["data_admins"] = {
+        "$elemMatch": {
+            "$eq": username
+        }
+    }
+    projection = {"id": 1}
+
+    result = collection.find(query, projection=projection)
+    facility_list = []
+    for doc in result:
+        facility_list.append(str(doc['id']))
+    return facility_list
+
+
+def get_beamline_dataadmin_roles(username: str):
+    database = client["nsls2core"]
+    collection = database["beamlines"]
+    query = {}
+    query["data_admins"] = {
+        "$elemMatch": {
+            "$eq": username
+        }
+    }
+    projection = {"name": 1}
+
+    result = collection.find(query, projection=projection)
+    beamline_list = []
+    for doc in result:
+        beamline_list.append(str(doc['name']).lower())
+    return beamline_list
+
+
+def get_datasessions_for_username(username: str):
+    database = client["nsls2core"]
+    collection = database["proposals"]
+    result = collection.find({
+        "users": {
+            "$elemMatch": {
+                "username": username
+            }
+        }
+    },
+        {
+            "data_session": 1.0
+        })
+
+    datasession_list = []
+    for doc in result:
+        datasession_list.append(str(doc['data_session']))
+    return datasession_list
 
 
 @router.get('/users/me')
@@ -66,20 +125,38 @@ async def get_user_by_life_number(person: User = Depends()):
     return user
 
 
-
 @router.get('/users/{username}/proposals')
 async def get_proposals_by_username(person: User = Depends()):
     person = await n2sn_service.get_user_by_username_async(person.username)
     proposals = await pass_service.get_proposals_by_person(person[0]['employeeID'])
     return proposals
 
+
 @router.get('/data_session/{username}', response_model=DataSessionAccess)
 async def get_datasessions_by_username(person: User = Depends()):
-    proposals = await get_proposals_by_username(person)
-    proposal_ids = [ sublist['Proposal_ID'] for sublist in proposals ]
-    proposal_ids = [f'pass-{str(i)}' for i in proposal_ids]
-    dataaccess = DataSessionAccess(all_access=False, data_sessions=proposal_ids)
+    facility_admin = get_facility_dataadmin_roles(person.username)
+    beamline_admin = get_beamline_dataadmin_roles(person.username)
+    datasession_list = get_datasessions_for_username(person.username)
+    # print(f"{person.username} is a data admin for the following facilities: {facility_admin}")
+    dataaccess = DataSessionAccess(all_access=False, data_sessions=datasession_list,
+                                   facility_all_access=facility_admin,
+                                   beamline_all_access=beamline_admin)
     return dataaccess
+
+
+@router.get('/data_session_passapi/{username}', response_model=DataSessionAccess)
+async def get_datasessions_by_username(person: User = Depends()):
+    proposals = await get_proposals_by_username(person)
+    proposal_ids = [sublist['Proposal_ID'] for sublist in proposals]
+    proposal_ids = [f'pass-{str(i)}' for i in proposal_ids]
+    facility_admin = get_facility_dataadmin_roles(person.username)
+    beamline_admin = get_beamline_dataadmin_roles(person.username)
+    # print(f"{person.username} is a data admin for the following facilities: {facility_admin}")
+    dataaccess = DataSessionAccess(all_access=False, data_sessions=proposal_ids,
+                                   facility_all_access=facility_admin,
+                                   beamline_all_access=beamline_admin)
+    return dataaccess
+
 
 # @router.get('/dataaccess/{username}/{datasession}/{beamline}', response_model=DataSessionAccess)
 #     async get_datasession_list(username: str, data_session: str, beamline: )
