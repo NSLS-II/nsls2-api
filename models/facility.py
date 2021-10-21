@@ -13,3 +13,5 @@ class Facility(BaseModel):
     fullname: str
     pass_facility_id: str
 
+class Cycles(BaseModel):
+    name: str

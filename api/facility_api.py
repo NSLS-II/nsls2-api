@@ -1,9 +1,17 @@
 from typing import List
 
 import fastapi
+from pymongo import MongoClient
 
-from services.pass_service import get_cycles_async
+from fastapi.responses import JSONResponse
+
+from infrastucture import settings
+from services import pass_service
 from models.facility import Facility, FacilityName
+
+client = MongoClient(settings.NSLS2CORE_MONGODB_URI)
+# client = motor.motor_asyncio.AsyncIOMotorClient(settings.NSLS2CORE_MONGODB_URI)
+
 
 router = fastapi.APIRouter()
 
@@ -14,10 +22,22 @@ facility_data = {
              'pass_facility_id': 'LBMS'}
 }
 
-
 @router.get('/facility/{facility}/cycles')
 async def get_facility_cycles(facility: FacilityName):
-    cycles = await get_cycles_async()
+    database = client["nsls2core"]
+    collection = database["cycles"]
+    # Just return them all for the moment as we only have nsls2 cycles
+    query = {"facility": str(facility.name)}
+    projection = {"name": 1.0, "year": 1.0, "facility": 1.0, "active": 1.0, "_id": 0.0}
+    cursor = collection.find(query, projection=projection)
+    result = []
+    for doc in cursor:
+        result.append(doc)
+    return result
+
+@router.get('/pass/facility/{facility}/cycles')
+async def get_facility_cycles_from_pass(facility: FacilityName):
+    cycles = await pass_service.get_cycles_async()
     return cycles
 
 

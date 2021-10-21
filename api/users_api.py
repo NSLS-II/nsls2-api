@@ -144,18 +144,18 @@ async def get_datasessions_by_username(person: User = Depends()):
     return dataaccess
 
 
-@router.get('/data_session_passapi/{username}', response_model=DataSessionAccess)
-async def get_datasessions_by_username(person: User = Depends()):
-    proposals = await get_proposals_by_username(person)
-    proposal_ids = [sublist['Proposal_ID'] for sublist in proposals]
-    proposal_ids = [f'pass-{str(i)}' for i in proposal_ids]
-    facility_admin = get_facility_dataadmin_roles(person.username)
-    beamline_admin = get_beamline_dataadmin_roles(person.username)
-    # print(f"{person.username} is a data admin for the following facilities: {facility_admin}")
-    dataaccess = DataSessionAccess(all_access=False, data_sessions=proposal_ids,
-                                   facility_all_access=facility_admin,
-                                   beamline_all_access=beamline_admin)
-    return dataaccess
+# @router.get('/pass/data_session/{username}', response_model=DataSessionAccess)
+# async def get_datasessions_by_username(person: User = Depends()):
+#     proposals = await get_proposals_by_username(person)
+#     proposal_ids = [sublist['Proposal_ID'] for sublist in proposals]
+#     proposal_ids = [f'pass-{str(i)}' for i in proposal_ids]
+#     facility_admin = get_facility_dataadmin_roles(person.username)
+#     beamline_admin = get_beamline_dataadmin_roles(person.username)
+#     # print(f"{person.username} is a data admin for the following facilities: {facility_admin}")
+#     dataaccess = DataSessionAccess(all_access=False, data_sessions=proposal_ids,
+#                                    facility_all_access=facility_admin,
+#                                    beamline_all_access=beamline_admin)
+#     return dataaccess
 
 
 # @router.get('/dataaccess/{username}/{datasession}/{beamline}', response_model=DataSessionAccess)

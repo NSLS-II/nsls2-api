@@ -14,7 +14,6 @@ class ProposalIn(BaseModel):
             }
         }
 
-
 class ProposalUpdate(BaseModel):
     proposal_id: int
     facility: FacilityName = FacilityName.nsls2
