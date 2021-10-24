@@ -9,6 +9,7 @@ from pymongo import MongoClient
 
 from infrastucture import settings
 from models.proposal import ProposalIn, ProposalUpdate
+from models.facility import Cycle
 from api.facility_api import facility_data
 
 from services import pass_service
@@ -19,9 +20,22 @@ client = MongoClient(settings.NSLS2CORE_MONGODB_URI)
 router = fastapi.APIRouter()
 
 
-# @router.get('/proposals')GIST.wauf-bain5gruf
+@router.get('/proposals/{cycle}')
+async def get_proposals_for_cycle(cycle: str):
+    database = client["nsls2core"]
+    collection = database["cycles"]
+    query = {"name": str(cycle)}
+    projection = {"proposals": 1.0, "_id": 0.0}
+    cursor = collection.find(query, projection=projection)
+    result = []
+    for doc in cursor:
+        result.append(doc)
+    return result
+
+# @router.get('/proposals')
 # def get_all_proposals():
 #     pass
+
 
 @router.get('/proposal/{proposal_id}/usernames')
 async def get_proposal_usernames(proposal_id: ProposalIn = Depends()):
@@ -79,7 +93,7 @@ async def get_proposal_usernames(proposal_id: ProposalIn = Depends()):
 
 
 @router.get('/proposal/{proposal_id}/users')
-async def users(proposal_id: ProposalIn = Depends()):
+async def get_proposal_users(proposal_id: ProposalIn = Depends()):
     database = client["nsls2core"]
     collection = database["proposals"]
     query = {"proposal_id": str(proposal_id.proposal_id)}
@@ -88,6 +102,49 @@ async def users(proposal_id: ProposalIn = Depends()):
     print(result)
     return JSONResponse(content=result)
 
+@router.get('/proposal/{proposal_id}/directories')
+async def get_proposal_directories(proposal_id: ProposalIn = Depends()):
+    database = client["nsls2core"]
+    collection = database["proposals"]
+
+    # First get the proposal details from the database
+    query = {"proposal_id": str(proposal_id.proposal_id)}
+    projection = {"_id": 0.0, "last_updated": 0.0}
+    proposal_doc = collection.find_one(query, projection=projection)
+
+    data_session = proposal_doc['data_session']
+    beamlines = proposal_doc['instruments']
+    cycles = proposal_doc['cycles']
+
+    # if any of the above are null or zero length, then we don't have
+    # enough information to create any directories
+    insufficient_information = False
+    error_msg = []
+
+    if data_session is None:
+        insufficient_information = True
+        error_msg.append(f"Proposal {str(proposal_id.proposal_id)} does not contain a data_session.")
+
+
+    if len(cycles) == 0:
+        insufficient_information = True
+        error_msg.append(f"Proposal {str(proposal_id.proposal_id)} does not contain any cycle information.")
+
+    if len(beamlines) == 0:
+        insufficient_information = True
+        error_msg.append(f"Proposal {str(proposal_id.proposal_id)} does not contain any beamlines.")
+
+    response = {}
+
+    directories =
+
+    if insufficient_information:
+        directories['error_message'] = error_msg
+        return response
+
+
+
+    return directories
 
 @router.get('/proposal/{proposal_id}')
 async def get_proposal_from_pass(proposal_id: ProposalIn = Depends()):

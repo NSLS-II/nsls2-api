@@ -13,5 +13,11 @@ class Facility(BaseModel):
     fullname: str
     pass_facility_id: str
 
-class Cycles(BaseModel):
+class Cycle(BaseModel):
     name: str
+    class Config:
+        schema_extra = {
+                "name": "2021-2"
+        }
+
+

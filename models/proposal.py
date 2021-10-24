@@ -9,9 +9,7 @@ class ProposalIn(BaseModel):
 
     class Config:
         schema_extra = {
-            "example": {
-                "proposal_id": 304947,
-            }
+                "proposal_id": 304947
         }
 
 class ProposalUpdate(BaseModel):
