@@ -39,7 +39,7 @@ async def get_proposals_for_cycle(cycle: str):
 
 
 @router.get('/proposal/{proposal_id}/usernames')
-async def get_proposal_usernames(proposal_id: ProposalIn = Depends()):
+async def get_proposal_usernames(proposal_id: ProposalIn = Depends(), return_json=True):
     database = client["nsls2core"]
     collection = database["proposals"]
 
@@ -90,7 +90,11 @@ async def get_proposal_usernames(proposal_id: ProposalIn = Depends()):
     result = {"usernames": []}
     for doc in cursor:
         result["usernames"].extend(doc["usernames"])
-    return JSONResponse(content=result)
+
+    if return_json:
+        return JSONResponse(content=result)
+
+    return result
 
 
 @router.get('/proposal/{proposal_id}/users')
@@ -112,6 +116,9 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends()):
     query = {"proposal_id": str(proposal_id.proposal_id)}
     projection = {"_id": 0.0, "last_updated": 0.0}
     proposal_doc = collection.find_one(query, projection=projection)
+
+    if proposal_doc is None:
+        return {'error_message': f"No proposal {str(proposal_id.proposal_id)} found."}
 
     data_session = proposal_doc['data_session']
     beamlines = proposal_doc['instruments']
@@ -152,6 +159,29 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends()):
         return response
 
     return directories
+
+@router.get('/proposal/{proposal_id}/group-membership')
+async def get_proposal_groups(proposal_id: ProposalIn = Depends()):
+    database = client["nsls2core"]
+    collection = database["proposals"]
+
+    # First get the proposal details from the database
+    query = {"proposal_id": str(proposal_id.proposal_id)}
+    projection = {"_id": 0.0, "last_updated": 0.0}
+    proposal_doc = collection.find_one(query, projection=projection)
+
+    data_session = proposal_doc['data_session']
+    usernames = await get_proposal_usernames(proposal_id, return_json=False)
+
+    print(usernames)
+
+    response = {}
+
+    response['groupname'] = str(data_session)
+    response['usernames'] = ",".join(usernames['usernames'])
+
+    return response
+
 
 @router.get('/proposal/{proposal_id}')
 async def get_proposal_from_pass(proposal_id: ProposalIn = Depends()):
