@@ -2,6 +2,7 @@ from typing import List
 
 import fastapi
 import httpx
+from pathlib import Path
 from fastapi import Depends, Header
 from fastapi.responses import JSONResponse
 from fastapi.security import APIKeyHeader
@@ -134,15 +135,21 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends()):
         insufficient_information = True
         error_msg.append(f"Proposal {str(proposal_id.proposal_id)} does not contain any beamlines.")
 
-    response = {}
+    directories = []
 
-    directories =
+    root = Path('/nsls2')
+    for beamline in beamlines:
+        for cycle in cycles:
+            directory = {}
+            directory['path'] = root / str(beamline).lower() / 'proposals' / str(cycle) / str(data_session)
+            directory['user'] = 'nsls2data'
+            directory['group'] = str(data_session)
+            directory['permissions'] = '775'
+            directories.append(directory)
 
     if insufficient_information:
-        directories['error_message'] = error_msg
+        response = {'error_message': error_msg}
         return response
-
-
 
     return directories
 
