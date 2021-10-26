@@ -171,9 +171,11 @@ async def get_proposal_groups(proposal_id: ProposalIn = Depends()):
     proposal_doc = collection.find_one(query, projection=projection)
 
     data_session = proposal_doc['data_session']
-    usernames = await get_proposal_usernames(proposal_id, return_json=False)
 
-    print(usernames)
+    if proposal_doc is None:
+        return {'error_message': f"No proposal {str(proposal_id.proposal_id)} found."}
+
+    usernames = await get_proposal_usernames(proposal_id, return_json=False)
 
     response = {}
 
