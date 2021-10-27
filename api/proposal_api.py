@@ -160,7 +160,7 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
     for beamline in beamlines:
         for cycle in cycles:
             directory = {'path': root / str(beamline).lower() / 'proposals' / str(cycle) / str(data_session),
-                         'posix': {'owner': 'nsls2data', 'group': str(data_session), 'mode': '2775'},
+                         'owner': 'nsls2data', 'group': str(data_session),
                          'users': users_acl, 'groups': groups_acl}
             directories.append(directory)
 
