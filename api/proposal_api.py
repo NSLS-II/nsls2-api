@@ -1,3 +1,4 @@
+import pprint
 from typing import List
 
 import fastapi
@@ -32,6 +33,7 @@ async def get_proposals_for_cycle(cycle: str):
     for doc in cursor:
         result.append(doc)
     return result
+
 
 # @router.get('/proposals')
 # def get_all_proposals():
@@ -107,8 +109,9 @@ async def get_proposal_users(proposal_id: ProposalIn = Depends()):
     print(result)
     return JSONResponse(content=result)
 
+
 @router.get('/proposal/{proposal_id}/directories')
-async def get_proposal_directories(proposal_id: ProposalIn = Depends()):
+async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing: bool = False):
     database = client["nsls2core"]
     collection = database["proposals"]
 
@@ -133,7 +136,6 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends()):
         insufficient_information = True
         error_msg.append(f"Proposal {str(proposal_id.proposal_id)} does not contain a data_session.")
 
-
     if len(cycles) == 0:
         insufficient_information = True
         error_msg.append(f"Proposal {str(proposal_id.proposal_id)} does not contain any cycle information.")
@@ -143,15 +145,23 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends()):
         error_msg.append(f"Proposal {str(proposal_id.proposal_id)} does not contain any beamlines.")
 
     directories = []
+    users_acl = []
+    groups_acl = []
 
-    root = Path('/nsls2')
+    # users_acl.append(('nsls2data', 'READ AND WRITE'))
+
+    if testing:
+        pprint.pprint(f"Testing is TRUE {testing}")
+        root = Path('/nsls2/data/.testing')
+    else:
+        pprint.pprint(f"Testing is FALSE {testing}")
+        root = Path('/nsls2/data')
+
     for beamline in beamlines:
         for cycle in cycles:
-            directory = {}
-            directory['path'] = root / str(beamline).lower() / 'proposals' / str(cycle) / str(data_session)
-            directory['user'] = 'nsls2data'
-            directory['group'] = str(data_session)
-            directory['permissions'] = '775'
+            directory = {'path': root / str(beamline).lower() / 'proposals' / str(cycle) / str(data_session),
+                         'posix': {'owner': 'nsls2data', 'group': str(data_session), 'mode': '2775'},
+                         'users': users_acl, 'groups': groups_acl}
             directories.append(directory)
 
     if insufficient_information:
@@ -159,6 +169,7 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends()):
         return response
 
     return directories
+
 
 @router.get('/proposal/{proposal_id}/group-membership')
 async def get_proposal_groups(proposal_id: ProposalIn = Depends()):
@@ -180,7 +191,7 @@ async def get_proposal_groups(proposal_id: ProposalIn = Depends()):
     response = {}
 
     response['groupname'] = str(data_session)
-    response['usernames'] = ",".join(usernames['usernames'])
+    response['usernames'] = usernames['usernames']
 
     return response
 
@@ -193,6 +204,7 @@ async def get_proposal_from_pass(proposal_id: ProposalIn = Depends()):
     projection = {"_id": 0.0, "last_updated": 0.0}
     result = collection.find_one(query, projection=projection)
     return JSONResponse(content=result)
+
 
 @router.get('/pass/proposal/{proposal_id}')
 async def get_proposal_from_pass(proposal_id: ProposalIn = Depends()):
