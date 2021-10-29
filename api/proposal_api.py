@@ -1,5 +1,5 @@
 import pprint
-from typing import List
+from typing import List, Dict
 
 import fastapi
 import httpx
@@ -41,7 +41,7 @@ async def get_proposals_for_cycle(cycle: str):
 
 
 @router.get('/proposal/{proposal_id}/usernames')
-async def get_proposal_usernames(proposal_id: ProposalIn = Depends(), return_json=True):
+async def get_proposal_usernames(proposal_id: ProposalIn = Depends(), return_json: bool=True):
     database = client["nsls2core"]
     collection = database["proposals"]
 
@@ -145,10 +145,6 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
         error_msg.append(f"Proposal {str(proposal_id.proposal_id)} does not contain any beamlines.")
 
     directories = []
-    users_acl = []
-    groups_acl = []
-
-    # users_acl.append(('nsls2data', 'READ AND WRITE'))
 
     if testing:
         pprint.pprint(f"Testing is TRUE {testing}")
@@ -159,8 +155,19 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
 
     for beamline in beamlines:
         for cycle in cycles:
-            directory = {'path': root / str(beamline).lower() / 'proposals' / str(cycle) / str(data_session),
-                         'owner': 'nsls2data', 'group': str(data_session),
+            beamline_tla = str(beamline).lower()
+            users_acl: list[dict[str, str]] = []
+            groups_acl: list[dict[str, str]]  = []
+
+            users_acl.append({'nsls2data': 'rw'})
+            groups_acl.append({str(data_session):"rw"})
+
+            groups_acl.append({'n2sn-dataadmin': "rw"})
+            groups_acl.append({f"n2sn-inststaff-{beamline_tla}": "rw"})
+            groups_acl.append({f"n2sn-secgrp-dataadmin-{beamline_tla}": "rw"})
+
+            directory = {'path': root / beamline_tla / 'proposals' / str(cycle) / str(data_session),
+                         'owner': 'nsls2data', 'group': str(data_session), 'group_writable' : True,
                          'users': users_acl, 'groups': groups_acl}
             directories.append(directory)
 
