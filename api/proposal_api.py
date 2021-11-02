@@ -105,9 +105,10 @@ async def get_proposal_users(proposal_id: ProposalIn = Depends()):
     collection = database["proposals"]
     query = {"proposal_id": str(proposal_id.proposal_id)}
     projection = {"users": 1.0, "proposal_id": True, "_id": 0.0}
-    result = collection.find_one(query, projection=projection)
-    print(result)
-    return JSONResponse(content=result)
+    proposal_doc = collection.find_one(query, projection=projection)
+    if proposal_doc is None:
+        return {'error_message': f"No proposal {str(proposal_id.proposal_id)} found."}
+    return JSONResponse(content=proposal_doc)
 
 
 @router.get('/proposal/{proposal_id}/directories')
@@ -188,6 +189,9 @@ async def get_proposal_groups(proposal_id: ProposalIn = Depends()):
     projection = {"_id": 0.0, "last_updated": 0.0}
     proposal_doc = collection.find_one(query, projection=projection)
 
+    if proposal_doc is None:
+        return {'error_message': f"No proposal {str(proposal_id.proposal_id)} found."}
+
     data_session = proposal_doc['data_session']
 
     if proposal_doc is None:
@@ -209,8 +213,10 @@ async def get_proposal_from_pass(proposal_id: ProposalIn = Depends()):
     collection = database["proposals"]
     query = {"proposal_id": str(proposal_id.proposal_id)}
     projection = {"_id": 0.0, "last_updated": 0.0}
-    result = collection.find_one(query, projection=projection)
-    return JSONResponse(content=result)
+    proposal_doc = collection.find_one(query, projection=projection)
+    if proposal_doc is None:
+        return {'error_message': f"No proposal {str(proposal_id.proposal_id)} found."}
+    return JSONResponse(content=proposal_doc)
 
 
 @router.get('/pass/proposal/{proposal_id}')
