@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     for beamline in beamlines:
         tla = str(beamline['name']).lower()
-        datagroup_name = f"n2sn-secgrp-dataadmin-{tla}"
+        datagroup_name = f"n2sn-right-dataadmin-{tla}"
         print(f"Getting data admins for {tla}")
         with ADObjects(script_settings.ACTIVE_DIRECTORY_SERVER, user_search=script_settings.N2SN_USER_SEARCH,
                    group_search=script_settings.N2SN_GROUP_SEARCH, authenticate=False,
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
         print(f"Updating database cache for {datagroup_name} group members")
 
-        # filter = "{'group_name': {'$eq': 'n2sn-secgrp-dataadmin-csx'}"
+        # filter = "{'group_name': {'$eq': 'n2sn-right-dataadmin-csx'}"
         # insert_result = groups.update_one(filter, document, upsert=True)
 
         insert_result = groups.insert_one(document)
