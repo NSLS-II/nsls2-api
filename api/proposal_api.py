@@ -193,8 +193,8 @@ async def get_proposal_groups(proposal_id: ProposalIn = Depends()):
 
     data_session = proposal_doc['data_session']
 
-    if proposal_doc is None:
-        return {'error_message': f"No proposal {str(proposal_id.proposal_id)} found."}
+    if data_session is None:
+        return {'error_message': f"No data session found for proposal {str(proposal_id.proposal_id)}."}
 
     usernames = await get_proposal_usernames(proposal_id, return_json=False)
 
