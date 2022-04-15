@@ -1,9 +1,17 @@
 from typing import Optional, List
 
 from pydantic.main import BaseModel
+from .facility import FacilityName
 
 
-class Proposal(BaseModel):
-    proposal_id: str
-    users_admin: List[str]  # PI(s)
-    users: List[str]
+class ProposalIn(BaseModel):
+    proposal_id: int
+
+    class Config:
+        schema_extra = {
+                "proposal_id": 304947
+        }
+
+class ProposalUpdate(BaseModel):
+    proposal_id: int
+    facility: FacilityName = FacilityName.nsls2

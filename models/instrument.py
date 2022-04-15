@@ -1,18 +1,31 @@
-from typing import Optional, List
+from enum import Enum
+from typing import Optional, List, Dict
 
 from pydantic.main import BaseModel
 
 
-class InstrumentBase(BaseModel):
+class BeamlineName(Enum):
+    six = "six"
+    amx = "amx"
+    fmx = "fmx"
+    csx = "csx"
+    ios = "ios"
+    pdf = "pdf"
+    xpd = "xpd"
+
+
+class Instrument(BaseModel):
     name: str
-    full_name: str
-    port_name: str
-    description: str
-    network_name: Optional[str] = None
+    long_name: str
+    alternative_name: str = None
+    port: Optional[str] = None
+    locations: Optional[List[str]] = None
 
-class Instrument(InstrumentBase):
-    endstations: List[str] = []
 
-class Endstation(InstrumentBase):
-    pass
 
+class InstrumentWithInternalDetails(Instrument):
+    nsls2_redhat_satellite_location_name: Optional[str] = None
+    service_accounts: Optional[Dict[str, str]] = None
+    pass_id: Optional[str] = None
+    pass_name: Optional[str] = None
+    

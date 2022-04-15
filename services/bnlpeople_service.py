@@ -21,7 +21,7 @@ async def get_person_by_username_async(username: str):
     return person
 
 
-async def get_person_by_lifenumber_async(lifenumber: str):
+async def get_person_by_id_async(lifenumber: str):
     url = f'{base_url}/api/BNLPeople?employeeNumber={lifenumber}'
     person = await _call_async_webservice(url)
     return person
