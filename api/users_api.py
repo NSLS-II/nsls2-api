@@ -77,7 +77,7 @@ def get_datasessions_for_username(username: str):
     return datasession_list
 
 
-@router.get('/users/me')
+#@router.get('/users/me')
 async def get_current_user(x_remote_user: Optional[str] = Header(None)):
     user_info = {"upn": x_remote_user}
 
@@ -89,7 +89,7 @@ async def get_current_user(x_remote_user: Optional[str] = Header(None)):
 #     pass
 
 
-@router.get('/users/{username}', response_model=User)
+#@router.get('/users/{username}', response_model=User)
 async def get_user_by_username(person: User = Depends()):
     ad_person = await n2sn_service.get_user_by_username_async(person.username)
 
@@ -108,7 +108,7 @@ async def get_user_by_username(person: User = Depends()):
     return user
 
 
-@router.get('/users/{bnl_id}', response_model=User)
+#@router.get('/users/{bnl_id}', response_model=User)
 async def get_user_by_life_number(person: User = Depends()):
     ad_person = await n2sn_service.get_user_by_id_async(person.life_number)
 
@@ -125,7 +125,7 @@ async def get_user_by_life_number(person: User = Depends()):
     return user
 
 
-@router.get('/users/{username}/proposals')
+#@router.get('/users/{username}/proposals')
 async def get_proposals_by_username(person: User = Depends()):
     person = await n2sn_service.get_user_by_username_async(person.username)
     proposals = await pass_service.get_proposals_by_person(person[0]['employeeID'])
@@ -144,7 +144,7 @@ async def get_datasessions_by_username(person: User = Depends()):
     return dataaccess
 
 
-@router.get('/data_session_passapi/{username}', response_model=DataSessionAccess)
+#@router.get('/data_session_passapi/{username}', response_model=DataSessionAccess)
 async def get_datasessions_by_username(person: User = Depends()):
     proposals = await get_proposals_by_username(person)
     proposal_ids = [sublist['Proposal_ID'] for sublist in proposals]

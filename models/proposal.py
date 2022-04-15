@@ -14,6 +14,10 @@ class ProposalIn(BaseModel):
             }
         }
 
+class Proposal(BaseModel):
+    proposal_id: int
+    title: str
+
 
 class ProposalUpdate(BaseModel):
     proposal_id: int

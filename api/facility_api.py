@@ -15,7 +15,7 @@ facility_data = {
 }
 
 
-@router.get('/facility/{facility}/cycles')
+#@router.get('/facility/{facility}/cycles')
 async def get_facility_cycles(facility: FacilityName):
     cycles = await get_cycles_async()
     return cycles

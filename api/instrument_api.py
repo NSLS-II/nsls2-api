@@ -24,7 +24,7 @@ async def get_instruments() -> List[Instrument]:
 #    pass
 
 
-@router.get('/pass-resources')
+#@router.get('/pass-resources')
 async def get_pass_resources() -> List[Instrument]:
     resources = await get_pass_resources_async()
     return resources
