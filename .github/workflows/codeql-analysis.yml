@@ -39,6 +39,11 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      
+    - name: Install krb5 (dependency for gssapi)
+        run: |
+          sudo apt-get update
+          sudo apt-get install libkrb5-dev
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
