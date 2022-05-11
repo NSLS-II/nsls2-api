@@ -8,12 +8,10 @@ from N2SNUserTools.ldap import ADObjects
 import script_settings
 
 config = Config(".env-scripts")
-N2SN_CACHE_DB_CONNECTION = config('N2SN_CACHE_DB_CONNECTION', cast=str)
 NSLS2CORE_MONGODB_URI = config('NSLS2CORE_MONGODB_URI', cast=str)
 
 
 if __name__ == '__main__':
-    client = MongoClient(N2SN_CACHE_DB_CONNECTION)
     client = MongoClient(NSLS2CORE_MONGODB_URI)
     db = client.nsls2core
 
