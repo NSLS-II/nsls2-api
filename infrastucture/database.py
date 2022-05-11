@@ -7,7 +7,7 @@ from infrastucture import settings
 from models.instrument import Instrument
 
 client = pymongo.MongoClient(settings.NSLS2CORE_MONGODB_URI)
-db = client["nsls2-core"]
+db = client["nsls2core"]
 
 
 async def fetch_all_beamlines():
