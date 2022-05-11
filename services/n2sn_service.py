@@ -11,7 +11,7 @@ from N2SNUserTools.ldap import ADObjects
 api_key: Optional[str] = None
 
 # client = motor_asyncio.AsyncIOMotorClient(settings.N2SN_CACHE_DB_CONNECTION)
-client = pymongo.MongoClient(settings.N2SN_CACHE_DB_CONNECTION)
+client = pymongo.MongoClient(settings.NSLS2CORE_MONGODB_URI)
 db = client['n2sn-cache']
 groups_collection = db.get_collection('groups')
 
