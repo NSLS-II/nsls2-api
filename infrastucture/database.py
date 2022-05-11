@@ -6,7 +6,7 @@ from infrastucture import settings
 
 from models.instrument import Instrument
 
-client = pymongo.MongoClient(settings.N2SN_CACHE_DB_CONNECTION)
+client = pymongo.MongoClient(settings.NSLS2CORE_MONGODB_URI)
 db = client["nsls2-core"]
 
 
