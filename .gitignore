@@ -132,5 +132,6 @@ dmypy.json
 # Local settings
 settings.json
 
+.idea/
 .idea/dataSources.xml
 /workspace.code-workspace
