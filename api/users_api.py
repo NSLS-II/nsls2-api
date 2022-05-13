@@ -16,7 +16,6 @@ from N2SNUserTools.ldap import ADObjects
 from infrastucture import settings
 
 client = MongoClient(settings.NSLS2CORE_MONGODB_URI)
-#client = MongoClient(settings.NSLS2CORE_LOCAL_TESTING_URI)
 
 router = fastapi.APIRouter()
 
