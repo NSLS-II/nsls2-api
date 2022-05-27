@@ -10,6 +10,7 @@ from fastapi.security import APIKeyHeader
 from pymongo import MongoClient
 
 from infrastucture import settings
+from infrastucture.database import fetch_beamline_root_directory_name
 from models.proposal import ProposalIn, ProposalUpdate
 from models.facility import Cycle
 from api.facility_api import facility_data
@@ -121,12 +122,15 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
     projection = {"_id": 0.0, "last_updated": 0.0}
     proposal_doc = collection.find_one(query, projection=projection)
 
+    proposal_doc.setdefault('cycles', [])
+
     if proposal_doc is None:
         return {'error_message': f"No proposal {str(proposal_id.proposal_id)} found."}
 
     data_session = proposal_doc['data_session']
     beamlines = proposal_doc['instruments']
     cycles = proposal_doc['cycles']
+    proposal_type = proposal_doc['type']
 
     # if any of the above are null or zero length, then we don't have
     # enough information to create any directories
@@ -155,8 +159,16 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
         root = Path('/nsls2/data')
 
     for beamline in beamlines:
+
+        # First lets check if this is a commissioning proposal
+        if proposal_type == "Beamline Commissioning (beamline staff only)":
+            pprint.pprint(f"Proposal {str(proposal_id.proposal_id)} is a commissioning proposal.")
+            # Now just set the cycle directory to be the commissioning one
+            cycles = ['commissioning']
+
         for cycle in cycles:
             beamline_tla = str(beamline).lower()
+            beamline_dir = await fetch_beamline_root_directory_name(beamline_tla.upper())
             users_acl: list[dict[str, str]] = []
             groups_acl: list[dict[str, str]]  = []
 
@@ -166,7 +178,7 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
             groups_acl.append({'n2sn-right-dataadmin': "rw"})
             groups_acl.append({f"n2sn-right-dataadmin-{beamline_tla}": "rw"})
 
-            directory = {'path': root / beamline_tla / 'proposals' / str(cycle) / str(data_session),
+            directory = {'path': root / beamline_dir / 'proposals' / str(cycle) / str(data_session),
                          'owner': 'nsls2data', 'group': str(data_session), 'group_writable' : True,
                          'users': users_acl, 'groups': groups_acl}
             directories.append(directory)
