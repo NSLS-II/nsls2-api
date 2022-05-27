@@ -1,6 +1,7 @@
 import pprint
 
 import pymongo
+from bson import Regex
 
 from infrastucture import settings
 
@@ -21,20 +22,11 @@ async def fetch_all_beamlines():
 async def fetch_beamline_root_directory_name(beamline_name : str):
     database = client["nsls2core"]
     collection = database["beamlines"]
-    query = {"name": beamline_name.upper()}
+    query = {"name": Regex(f"{beamline_name}", "i")}
     projection = {"_id": 0.0, "last_updated": 0.0}
     beamline_doc = collection.find_one(query, projection=projection)
 
     if beamline_doc is None:
-        return {'error_message': f"No beamline {beamline_name.upper()} exists."}
+        raise RuntimeError(f"No beamline {beamline_name} exists.")
 
-    try:
-        custom_rootdir = beamline_doc['custom_root_directory']
-    except KeyError:
-        # If the custom root directory field does not exist, just use the TLA
-        return str(beamline_name.lower())
-
-    if custom_rootdir:
-        return str(custom_rootdir).lower()
-    else:
-        return str(beamline_name.lower())
+    return beamline_doc.get('custom_root_directory', str(beamline_name.lower()))
