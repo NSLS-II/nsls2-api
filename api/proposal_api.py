@@ -122,12 +122,15 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
     projection = {"_id": 0.0, "last_updated": 0.0}
     proposal_doc = collection.find_one(query, projection=projection)
 
+    proposal_doc.setdefault('cycles', [""])
+
     if proposal_doc is None:
         return {'error_message': f"No proposal {str(proposal_id.proposal_id)} found."}
 
     data_session = proposal_doc['data_session']
     beamlines = proposal_doc['instruments']
     cycles = proposal_doc['cycles']
+    proposal_type = proposal_doc['type']
 
     # if any of the above are null or zero length, then we don't have
     # enough information to create any directories
@@ -156,6 +159,13 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
         root = Path('/nsls2/data')
 
     for beamline in beamlines:
+
+        # First lets check if this is a commissioning proposal
+        if proposal_type == "Beamline Commissioning (beamline staff only)":
+            pprint.pprint(f"Proposal {str(proposal_id.proposal_id)} is a commissioning proposal.")
+            # Now just set the cycle directory to be the commissioning one
+            cycles = ['commissioning']
+
         for cycle in cycles:
             beamline_tla = str(beamline).lower()
             beamline_dir = await fetch_beamline_root_directory_name(beamline_tla.upper())
