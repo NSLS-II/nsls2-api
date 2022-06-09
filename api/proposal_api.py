@@ -141,7 +141,7 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
         insufficient_information = True
         error_msg.append(f"Proposal {str(proposal_id.proposal_id)} does not contain a data_session.")
 
-    if (len(cycles) == 0) and (proposal_type !=  "Beamline Commissioning (beamline staff only)")::
+    if (len(cycles) == 0) and (proposal_type !=  "Beamline Commissioning (beamline staff only)"):
         insufficient_information = True
         error_msg.append(f"Proposal {str(proposal_id.proposal_id)} does not contain any cycle information.")
 
