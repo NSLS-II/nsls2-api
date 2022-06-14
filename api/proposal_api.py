@@ -57,8 +57,6 @@ async def get_commissioning_proposals(return_json: bool = True):
 
     result = {"commissioning_proposals": []}
     for doc in cursor:
-        pprint.pprint("------")
-        pprint.pprint(doc['proposal_id'])
         result['commissioning_proposals'].extend(doc['proposal_id'])
 
     if return_json:
