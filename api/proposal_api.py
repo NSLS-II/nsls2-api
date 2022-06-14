@@ -229,6 +229,11 @@ async def get_proposal_from_pass(proposal_id: ProposalIn = Depends()):
         return {'error_message': f"No proposal {str(proposal_id.proposal_id)} found."}
     return JSONResponse(content=proposal_doc)
 
+@router.get('/pass/proposals/commissioning')
+async def get_commissioning_proposals_from_pass(year: int):
+    proposals = await pass_service.get_commissioning_proposals_by_year(year)
+    return proposals
+
 
 @router.get('/pass/proposal/{proposal_id}')
 async def get_proposal_from_pass(proposal_id: ProposalIn = Depends()):
