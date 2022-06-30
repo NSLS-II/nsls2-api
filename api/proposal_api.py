@@ -122,11 +122,12 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
     projection = {"_id": 0.0, "last_updated": 0.0}
     proposal_doc = collection.find_one(query, projection=projection)
 
-    proposal_doc.setdefault('cycles', [])
-
     if proposal_doc is None:
         return {'error_message': f"No proposal {str(proposal_id.proposal_id)} found."}
 
+    # Ensure we set a sensible default incase there are no cycles listed for the proposal.
+    proposal_doc.setdefault('cycles', [])
+    
     data_session = proposal_doc['data_session']
     beamlines = proposal_doc['instruments']
     cycles = proposal_doc['cycles']
