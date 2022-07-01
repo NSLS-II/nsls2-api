@@ -23,6 +23,47 @@ client = MongoClient(settings.NSLS2CORE_MONGODB_URI)
 router = fastapi.APIRouter()
 
 
+
+@router.get('/proposals/commissioning')
+async def get_commissioning_proposals(return_json: bool = True):
+    database = client["nsls2core"]
+    collection = database["proposals"]
+
+    pipeline = [
+        {
+            "$match": {
+                "pass_type_id": "300005"
+            }
+        },
+        {
+            "$project": {
+                "proposal_id": 1.0
+            }
+        },
+        {
+            "$group": {
+                "_id": None,
+                "proposal_id": {
+                    "$addToSet": "$proposal_id"
+                }
+            }
+        }
+    ]
+
+    cursor = collection.aggregate(
+        pipeline,
+        allowDiskUse=False
+    )
+
+    result = {"commissioning_proposals": []}
+    for doc in cursor:
+        result['commissioning_proposals'].extend(doc['proposal_id'])
+
+    if return_json:
+        return JSONResponse(content=result)
+
+    return result
+
 @router.get('/proposals/{cycle}')
 async def get_proposals_for_cycle(cycle: str):
     database = client["nsls2core"]
@@ -35,14 +76,8 @@ async def get_proposals_for_cycle(cycle: str):
         result.append(doc)
     return result
 
-
-# @router.get('/proposals')
-# def get_all_proposals():
-#     pass
-
-
 @router.get('/proposal/{proposal_id}/usernames')
-async def get_proposal_usernames(proposal_id: ProposalIn = Depends(), return_json: bool=True):
+async def get_proposal_usernames(proposal_id: ProposalIn = Depends(), return_json: bool = True):
     database = client["nsls2core"]
     collection = database["proposals"]
 
@@ -171,16 +206,16 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
             beamline_tla = str(beamline).lower()
             beamline_dir = await fetch_beamline_root_directory_name(beamline_tla.upper())
             users_acl: list[dict[str, str]] = []
-            groups_acl: list[dict[str, str]]  = []
+            groups_acl: list[dict[str, str]] = []
 
             users_acl.append({'nsls2data': 'rw'})
-            groups_acl.append({str(data_session):"rw"})
+            groups_acl.append({str(data_session): "rw"})
 
             groups_acl.append({'n2sn-right-dataadmin': "rw"})
             groups_acl.append({f"n2sn-right-dataadmin-{beamline_tla}": "rw"})
 
             directory = {'path': root / beamline_dir / 'proposals' / str(cycle) / str(data_session),
-                         'owner': 'nsls2data', 'group': str(data_session), 'group_writable' : True,
+                         'owner': 'nsls2data', 'group': str(data_session), 'group_writable': True,
                          'users': users_acl, 'groups': groups_acl}
             directories.append(directory)
 
@@ -220,7 +255,7 @@ async def get_proposal_groups(proposal_id: ProposalIn = Depends()):
 
 
 @router.get('/proposal/{proposal_id}')
-async def get_proposal_from_pass(proposal_id: ProposalIn = Depends()):
+async def get_proposal(proposal_id: ProposalIn = Depends()):
     database = client["nsls2core"]
     collection = database["proposals"]
     query = {"proposal_id": str(proposal_id.proposal_id)}
@@ -229,6 +264,12 @@ async def get_proposal_from_pass(proposal_id: ProposalIn = Depends()):
     if proposal_doc is None:
         return {'error_message': f"No proposal {str(proposal_id.proposal_id)} found."}
     return JSONResponse(content=proposal_doc)
+
+
+@router.get('/pass/proposals/commissioning')
+async def get_commissioning_proposals_from_pass(year: int):
+    proposals = await pass_service.get_commissioning_proposals_by_year(year)
+    return proposals
 
 
 @router.get('/pass/proposal/{proposal_id}')

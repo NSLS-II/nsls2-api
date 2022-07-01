@@ -29,4 +29,6 @@ async def fetch_beamline_root_directory_name(beamline_name : str):
     if beamline_doc is None:
         raise RuntimeError(f"No beamline {beamline_name} exists.")
 
+    # Now we have a document for the beamline, return the custom root directory
+    # if it exists, or just the default (beamline name) if it doesn't.
     return beamline_doc.get('custom_root_directory', str(beamline_name.lower()))

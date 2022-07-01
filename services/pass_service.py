@@ -22,7 +22,10 @@ async def get_saf_from_proposal(proposal_id: int):
     saf = await _call_async_webservice(url)
     return saf
 
-
+async def get_commissioning_proposals_by_year(year: int):
+    url = f"{base_url}Proposal/GetProposalsByType/{settings.PASS_API_KEY}/NSLS-II/{year}/300005/NULL"
+    proposals = await _call_async_webservice(url)
+    return proposals
 
 async def get_pass_resources_async():
     url = f'{base_url}/Resource/GetResources/{settings.PASS_API_KEY}/NSLS-II'
