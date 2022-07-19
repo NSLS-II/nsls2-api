@@ -23,6 +23,16 @@ client = MongoClient(settings.NSLS2CORE_MONGODB_URI)
 router = fastapi.APIRouter()
 
 
+# Handle special cases where the workflow user is *not* workflow-{beamline_tla}
+WORKFLOW_USERS = {
+    "SST1": "workflow-sst",
+    "SST2": "workflow-sst",
+}
+
+
+def get_workflow_user(beamline):
+    return WORKFLOW_USERS.get(beamline, f"workflow-{beamline.lower()}")
+
 
 @router.get('/proposals/commissioning')
 async def get_commissioning_proposals(return_json: bool = True):
@@ -213,7 +223,7 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
 
             groups_acl.append({'n2sn-right-dataadmin': "rw"})
             groups_acl.append({f"n2sn-right-dataadmin-{beamline_tla}": "rw"})
-            groups_acl.append({f"workflow-{beamline_tla}": "rwX"})
+            groups_acl.append({f"workflow-{get_workflow_user(beamline)}": "rwX"})
 
             directory = {'path': root / beamline_dir / 'proposals' / str(cycle) / str(data_session),
                          'owner': 'nsls2data', 'group': str(data_session), 'group_writable': True,
