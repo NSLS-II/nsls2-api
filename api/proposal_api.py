@@ -220,7 +220,7 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
             groups_acl: list[dict[str, str]] = []
 
             users_acl.append({'nsls2data': 'rw'})
-            users_acl.append({f"workflow-{get_workflow_user(beamline)}": "rwX"})
+            users_acl.append({f"{get_workflow_user(beamline)}": "rwX"})
             groups_acl.append({str(data_session): "rw"})
 
             groups_acl.append({'n2sn-right-dataadmin': "rw"})
