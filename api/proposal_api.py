@@ -213,6 +213,7 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
 
             groups_acl.append({'n2sn-right-dataadmin': "rw"})
             groups_acl.append({f"n2sn-right-dataadmin-{beamline_tla}": "rw"})
+            groups_acl.append({f"workflow-{beamline_tla}": "rwX"})
 
             directory = {'path': root / beamline_dir / 'proposals' / str(cycle) / str(data_session),
                          'owner': 'nsls2data', 'group': str(data_session), 'group_writable': True,
