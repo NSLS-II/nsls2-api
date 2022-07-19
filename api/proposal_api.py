@@ -31,7 +31,7 @@ WORKFLOW_USERS = {
 
 
 def get_workflow_user(beamline):
-    return WORKFLOWS_USERS.get(beamline, f"workflow-{beamline.lower()}")
+    return WORKFLOW_USERS.get(beamline, f"workflow-{beamline.lower()}")
 
 
 @router.get('/proposals/commissioning')
