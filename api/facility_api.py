@@ -47,11 +47,6 @@ async def get_facility_cycles(facility: FacilityName):
         result.append(doc)
     return result
 
-@router.get('/pass/facility/{facility}/cycles')
-async def get_facility_cycles_from_pass(facility: FacilityName):
-    cycles = await pass_service.get_cycles_async()
-    return cycles
-
 @router.get('/facility/{facility}')
 def get_facility(facility: FacilityName):
     return facility_data[facility.name]
