@@ -3,7 +3,6 @@ from typing import List
 import fastapi
 
 from models.instrument import Instrument
-from services.pass_service import get_pass_resources_async
 from infrastucture.database import fetch_all_beamlines
 
 router = fastapi.APIRouter()
@@ -24,8 +23,3 @@ def read_beamline(beamline: str):
 async def instrument() -> List[Instrument]:
     pass
 
-
-@router.get('/pass-resources')
-async def get_pass_resources() -> List[Instrument]:
-    resources = await get_pass_resources_async()
-    return resources

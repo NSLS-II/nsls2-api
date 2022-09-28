@@ -6,7 +6,6 @@ from pymongo import MongoClient
 from fastapi.responses import JSONResponse
 
 from infrastucture import settings
-from services import pass_service
 from models.facility import Facility, FacilityName
 
 client = MongoClient(settings.NSLS2CORE_MONGODB_URI)
@@ -46,11 +45,6 @@ async def get_facility_cycles(facility: FacilityName):
     for doc in cursor:
         result.append(doc)
     return result
-
-@router.get('/pass/facility/{facility}/cycles')
-async def get_facility_cycles_from_pass(facility: FacilityName):
-    cycles = await pass_service.get_cycles_async()
-    return cycles
 
 @router.get('/facility/{facility}')
 def get_facility(facility: FacilityName):

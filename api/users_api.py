@@ -9,7 +9,6 @@ from pymongo import MongoClient
 
 from models.users import User, DataAdmins, DataSessionAccess
 from services import bnlpeople_service
-from services import pass_service
 from services import n2sn_service
 
 from N2SNUserTools.ldap import ADObjects
@@ -124,11 +123,12 @@ async def get_user_by_life_number(person: User = Depends()):
     return user
 
 
-@router.get('/users/{username}/proposals')
-async def get_proposals_by_username(person: User = Depends()):
-    person = await n2sn_service.get_user_by_username_async(person.username)
-    proposals = await pass_service.get_proposals_by_person(person[0]['employeeID'])
-    return proposals
+# Commented out because it's very slow at the moment
+# @router.get('/users/{username}/proposals')
+# async def get_proposals_by_username(person: User = Depends()):
+#     person = await n2sn_service.get_user_by_username_async(person.username)
+#     proposals = await pass_service.get_proposals_by_person(person[0]['employeeID'])
+#     return proposals
 
 
 @router.get('/data_session/{username}', response_model=DataSessionAccess)
