@@ -47,7 +47,6 @@ async def get_facility_cycles(facility: FacilityName):
         result.append(doc)
     return result
 
-
 @router.get('/facility/{facility}', response_model=Facility)
 def get_facility(facility: FacilityName):
     return facility_data[facility.name]
