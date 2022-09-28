@@ -39,18 +39,18 @@ async def get_facility_cycles(facility: FacilityName):
     collection = database["cycles"]
     # Just return them all for the moment as we only have nsls2 cycles
     query = {"facility": str(facility.name)}
-    projection = {"name": 1.0, "year": 1.0, "facility": 1.0, "active": 1.0, "_id": 0.0}
+    projection = {"name": 1.0, "year": 1.0, "facility": 1.0, "active": 0.0, "_id": 0.0}
     cursor = collection.find(query, projection=projection)
     result = []
     for doc in cursor:
         result.append(doc)
     return result
 
-@router.get('/facility/{facility}')
+@router.get('/facility/{facility}', response_model=Facility)
 def get_facility(facility: FacilityName):
     return facility_data[facility.name]
 
 
-@router.get('/facilities', response_model=Facility)
+@router.get('/facilities', response_model=List[Facility])
 def get_all_facilities():
-    return facility_data
+    return list(facility_data.values())
