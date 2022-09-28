@@ -38,11 +38,11 @@ async def add_server_timing_header(request: Request, call_next):
 
 def configure_routing():
     api.mount('/static', StaticFiles(directory='static'), name='static')
-    api.include_router(home.router)
-    api.include_router(instrument_api.router)
-    api.include_router(facility_api.router)
-    api.include_router(proposal_api.router)
-    api.include_router(users_api.router)
+    api.include_router(home.router, prefix="/v1")
+    api.include_router(instrument_api.router, prefix="/v1")
+    api.include_router(facility_api.router, prefix="/v1")
+    api.include_router(proposal_api.router, prefix="/v1")
+    api.include_router(users_api.router, prefix="/v1")
 
 def configure():
     configure_routing()
