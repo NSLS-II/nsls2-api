@@ -3,7 +3,6 @@ from typing import List
 import fastapi
 
 from models.instrument import Instrument
-from services.pass_service import get_pass_resources_async
 from infrastucture.database import fetch_all_beamlines
 
 router = fastapi.APIRouter()

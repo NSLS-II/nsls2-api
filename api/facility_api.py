@@ -6,7 +6,6 @@ from pymongo import MongoClient
 from fastapi.responses import JSONResponse
 
 from infrastucture import settings
-from services import pass_service
 from models.facility import Facility, FacilityName
 
 client = MongoClient(settings.NSLS2CORE_MONGODB_URI)

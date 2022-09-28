@@ -15,8 +15,6 @@ from models.proposal import ProposalIn, ProposalUpdate
 from models.facility import Cycle
 from api.facility_api import facility_data
 
-from services import pass_service
-
 client = MongoClient(settings.NSLS2CORE_MONGODB_URI)
 # client = motor.motor_asyncio.AsyncIOMotorClient(settings.NSLS2CORE_MONGODB_URI)
 
@@ -287,10 +285,11 @@ async def update_proposal(proposal: ProposalUpdate = Depends()):
     return msg
 
 
-@router.get('/saf/{proposal_id}')
-async def get_proposal(proposal_id: ProposalIn = Depends()):
-    saf = await pass_service.get_saf_from_proposal(proposal_id.proposal_id)
-    return saf
+# Commented out because it is very slow at the moment
+# @router.get('/saf/{proposal_id}')
+# async def get_proposal(proposal_id: ProposalIn = Depends()):
+#     saf = await pass_service.get_saf_from_proposal(proposal_id.proposal_id)
+#     return saf
 
 # URL = "http://n2snadmin.nsls2.bnl.gov:5000"
 # client_to_windows = httpx.AsyncClient(base_url=URL, headers={"X-API-KEY": n2sn_service.api_key})
