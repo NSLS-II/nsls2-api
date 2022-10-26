@@ -13,13 +13,13 @@ async def get_instruments() -> List[Instrument]:
     return response
 
 
-@router.get('/instrument/{beamline}')
-def read_beamline(beamline: str):
-    # TODO: Validate beamline string is valid
-    return {"name": "TST"}
+#@router.get('/instrument/{beamline}')
+#def read_beamline(beamline: str):
+#    # TODO: Validate beamline string is valid
+#    return {"name": "TST"}
 
 
-@router.get('/instrument/{beamline}/{endstation}')
-async def instrument() -> List[Instrument]:
-    pass
+#@router.get('/instrument/{beamline}/{endstation}')
+#async def instrument() -> List[Instrument]:
+#    pass
 
