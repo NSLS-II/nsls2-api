@@ -75,7 +75,7 @@ def get_datasessions_for_username(username: str):
     return datasession_list
 
 
-@router.get('/users/me')
+#@router.get('/users/me')
 async def get_current_user(x_remote_user: Optional[str] = Header(None)):
     user_info = {"upn": x_remote_user}
 
@@ -87,7 +87,7 @@ async def get_current_user(x_remote_user: Optional[str] = Header(None)):
 #     pass
 
 
-@router.get('/users/{username}', response_model=User)
+#@router.get('/users/{username}', response_model=User)
 async def get_user_by_username(person: User = Depends()):
     ad_person = await n2sn_service.get_user_by_username_async(person.username)
 
@@ -143,7 +143,7 @@ async def get_datasessions_by_username(person: User = Depends()):
     return dataaccess
 
 
-@router.get('/user/{username}/data-admin-rights', response_model=DataAdmins)
+#@router.get('/user/{username}/data-admin-rights', response_model=DataAdmins)
 async def get_user_dataadmin_rights(username: str):
     userinfo = await n2sn_service.get_groups_by_username_async(username)
     # For now, I am assuming the first account returned is the one we want
