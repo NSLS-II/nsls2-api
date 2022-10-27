@@ -106,7 +106,7 @@ async def get_user_by_username(person: User = Depends()):
     return user
 
 
-@router.get('/users/{bnl_id}', response_model=User)
+#@router.get('/users/{bnl_id}', response_model=User)
 async def get_user_by_life_number(person: User = Depends()):
     ad_person = await n2sn_service.get_user_by_id_async(person.life_number)
 
