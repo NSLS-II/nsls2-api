@@ -21,9 +21,9 @@ if __name__ == '__main__':
     for beamline in beamlines:
         # Default operator account name to location name
         if 'operator' in beamline:
-            operator = beamline['operator']
+            operator = beamline['local_username']
         else:
-            operator = beamline['location']
+            operator = beamline['location_name']
 
         with ADObjects(script_settings.ACTIVE_DIRECTORY_SERVER, user_search=script_settings.N2SN_USER_SEARCH,
                    group_search=script_settings.N2SN_GROUP_SEARCH, authenticate=False,
