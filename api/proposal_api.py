@@ -27,14 +27,18 @@ WORKFLOW_USERS = {
     "sst2": "workflow-sst",
 }
 
-
+# Handle special cases where the softioc user is *not* softioc-{beamline_tla}
+IOC_USERS = {
+    "sst2": "softioc-sst",
+}
+A
 def get_workflow_user(beamline):
     beamline_lower = beamline.lower()
     return WORKFLOW_USERS.get(beamline_lower, f"workflow-{beamline_lower}")
 
 def get_ioc_user(beamline):
     beamline_lower = beamline.lower()
-    return f"softioc-{beamline_lower}"
+    return IOC_USERS.get(beamline_lower, f"softioc-{beamline_lower}")
 
 @router.get('/proposals/commissioning')
 async def get_commissioning_proposals(return_json: bool = True):
