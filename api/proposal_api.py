@@ -32,6 +32,9 @@ def get_workflow_user(beamline):
     beamline_lower = beamline.lower()
     return WORKFLOW_USERS.get(beamline_lower, f"workflow-{beamline_lower}")
 
+def get_ioc_user(beamline):
+    beamline_lower = beamline.lower()
+    return f"softioc-{beamline_lower}"
 
 @router.get('/proposals/commissioning')
 async def get_commissioning_proposals(return_json: bool = True):
@@ -219,6 +222,7 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
 
             users_acl.append({'nsls2data': 'rw'})
             users_acl.append({f"{get_workflow_user(beamline)}": "rw"})
+            users_acl.append({f"{get_ioc_user(beamline)}": "rw"})
             groups_acl.append({str(data_session): "rw"})
 
             groups_acl.append({'n2sn-right-dataadmin': "rw"})
