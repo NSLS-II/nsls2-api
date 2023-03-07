@@ -27,11 +27,20 @@ WORKFLOW_USERS = {
     "sst2": "workflow-sst",
 }
 
+# Handle special cases where the softioc user is *not* softioc-{beamline_tla}
+IOC_USERS = {
+    "sst2": "softioc-sst",
+}
+
+LSDC_BEAMLINES = {"amx", "fmx", "nyx"}
 
 def get_workflow_user(beamline):
     beamline_lower = beamline.lower()
     return WORKFLOW_USERS.get(beamline_lower, f"workflow-{beamline_lower}")
 
+def get_ioc_user(beamline):
+    beamline_lower = beamline.lower()
+    return IOC_USERS.get(beamline_lower, f"softioc-{beamline_lower}")
 
 @router.get('/proposals/commissioning')
 async def get_commissioning_proposals(return_json: bool = True):
@@ -219,7 +228,12 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
 
             users_acl.append({'nsls2data': 'rw'})
             users_acl.append({f"{get_workflow_user(beamline)}": "rw"})
+            users_acl.append({f"{get_ioc_user(beamline)}": "rw"})
             groups_acl.append({str(data_session): "rw"})
+
+            # Add LSDC beamline users for the appropriate beamlines
+            if beamline_tla in LSDC_BEAMLINES:
+                users_acl.append({f"lsdc-{beamline_tla}": "rw"})
 
             groups_acl.append({'n2sn-right-dataadmin': "rw"})
             groups_acl.append({f"n2sn-right-dataadmin-{beamline_tla}": "rw"})
