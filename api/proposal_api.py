@@ -31,7 +31,9 @@ WORKFLOW_USERS = {
 IOC_USERS = {
     "sst2": "softioc-sst",
 }
-A
+
+LSDC_BEAMLINES = {"amx", "fmx", "nyx"}
+
 def get_workflow_user(beamline):
     beamline_lower = beamline.lower()
     return WORKFLOW_USERS.get(beamline_lower, f"workflow-{beamline_lower}")
@@ -228,6 +230,10 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
             users_acl.append({f"{get_workflow_user(beamline)}": "rw"})
             users_acl.append({f"{get_ioc_user(beamline)}": "rw"})
             groups_acl.append({str(data_session): "rw"})
+
+            # Add LSDC beamline users for the appropriate beamlinesA
+            if beamline_tla in LSDC_BEAMLINES:
+                users_acl.append({f"lsdc-{beamline_tla}": "rw"})
 
             groups_acl.append({'n2sn-right-dataadmin': "rw"})
             groups_acl.append({f"n2sn-right-dataadmin-{beamline_tla}": "rw"})
