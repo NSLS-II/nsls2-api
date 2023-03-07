@@ -39,7 +39,7 @@ async def get_facility_cycles(facility: FacilityName):
     collection = database["cycles"]
     # Just return them all for the moment as we only have nsls2 cycles
     query = {"facility": str(facility.name)}
-    projection = {"name": 1.0, "year": 1.0, "facility": 1.0, "active": 0.0, "_id": 0.0}
+    projection = {"name": 1.0, "year": 1.0, "facility": 1.0, "active": 1.0, "_id": 0.0}
     cursor = collection.find(query, projection=projection)
     result = []
     for doc in cursor:
