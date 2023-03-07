@@ -231,7 +231,7 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
             users_acl.append({f"{get_ioc_user(beamline)}": "rw"})
             groups_acl.append({str(data_session): "rw"})
 
-            # Add LSDC beamline users for the appropriate beamlinesA
+            # Add LSDC beamline users for the appropriate beamlines
             if beamline_tla in LSDC_BEAMLINES:
                 users_acl.append({f"lsdc-{beamline_tla}": "rw"})
 
