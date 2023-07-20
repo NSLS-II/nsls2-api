@@ -26,6 +26,7 @@ WORKFLOW_USERS = {
     "sst1": "workflow-sst",
     "sst2": "workflow-sst",
 }
+SYNCHWEB_BEAMLINES = {"amx", "fmx", "lix"}
 
 # Handle special cases where the softioc user is *not* softioc-{beamline_tla}
 IOC_USERS = {
@@ -237,6 +238,9 @@ async def get_proposal_directories(proposal_id: ProposalIn = Depends(), testing:
 
             groups_acl.append({'n2sn-right-dataadmin': "rw"})
             groups_acl.append({f"n2sn-right-dataadmin-{beamline_tla}": "rw"})
+
+            if beamline_tla in SYNCHWEB_BEAMLINES:
+                users_acl.append({'synchweb': 'r'})
 
             directory = {'path': root / beamline_dir / 'proposals' / str(cycle) / str(data_session),
                          'owner': 'nsls2data', 'group': str(data_session), 'group_writable': True,
