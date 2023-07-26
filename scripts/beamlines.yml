@@ -11,6 +11,7 @@
     "long_name": "Hard X-ray Nanoprobe",
     "pass_name": "Beamline 3-ID",
     "port_name": "3-ID",
+    "local_username": "xf03id",
     "location_name": "xf03id1"
   },
   {
@@ -32,7 +33,7 @@
     "pass_name": "Beamline 5-ID",
     "long_name": "Submicron Resolution X-ray Spectroscopy",
     "port_name": "5-ID",
-    "local_username": "xf05id",
+    "local_username": "xf05id1",
     "location_name": "xf05id2",
     "facility": "NSLS-II"
   },
@@ -76,6 +77,7 @@
     "long_name": "Inner-Shell Spectroscopy",
     "pass_name": "Beamline 8-ID",
     "port_name": "8-ID",
+    "local_username": "xf08id",
     "location_name": "xf08id1"
   },
   {
@@ -83,6 +85,7 @@
     "long_name": "Inelastic X-ray Scattering",
     "pass_name": "Beamline 10-ID",
     "port_name": "10-ID",
+    "local_username": "xf10id",
     "location_name": "xf10id1"
   },
   {
@@ -140,6 +143,7 @@
     "long_name": "Full Field X-ray Imaging",
     "pass_name": "",
     "port_name": "18-ID",
+    "local_username": "xf18id",
     "location_name": "xf18id1"
   },
   {
@@ -147,6 +151,7 @@
     "long_name": "Biological Microdiffraction Facility",
     "pass_name": "",
     "port_name": "19-ID",
+    "local_username": "xf19id2"
     "location_name": "xf19id1"
   },
   {
