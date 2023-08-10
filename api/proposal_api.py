@@ -26,7 +26,7 @@ WORKFLOW_USERS = {
     "sst1": "workflow-sst",
     "sst2": "workflow-sst",
 }
-SYNCHWEB_BEAMLINES = {"amx", "fmx", "lix"}
+SYNCHWEB_BEAMLINES = {"amx", "fmx", "lix", "nyx"}
 
 # Handle special cases where the softioc user is *not* softioc-{beamline_tla}
 IOC_USERS = {
